@@ -29,10 +29,27 @@ define('AUTOBLOGGER_BASENAME', plugin_basename(__FILE__));
 // Simple autoloader
 spl_autoload_register(function($class) {
     if (strpos($class, 'AutoBlogger_') === 0) {
-        $file = AUTOBLOGGER_PATH . 'includes/class-' . 
-                strtolower(str_replace('_', '-', substr($class, 12))) . '.php';
+        $class_name = strtolower(str_replace('_', '-', substr($class, 12)));
+        
+        // Check main includes directory for classes
+        $file = AUTOBLOGGER_PATH . 'includes/class-' . $class_name . '.php';
         if (file_exists($file)) {
             require_once $file;
+            return;
+        }
+        
+        // Check providers subdirectory
+        $provider_file = AUTOBLOGGER_PATH . 'includes/providers/class-' . $class_name . '.php';
+        if (file_exists($provider_file)) {
+            require_once $provider_file;
+            return;
+        }
+        
+        // Check interfaces subdirectory
+        $interface_file = AUTOBLOGGER_PATH . 'includes/interfaces/interface-' . $class_name . '.php';
+        if (file_exists($interface_file)) {
+            require_once $interface_file;
+            return;
         }
     }
 });

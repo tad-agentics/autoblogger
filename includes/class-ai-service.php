@@ -32,18 +32,32 @@ class AutoBlogger_AI_Service {
         
         switch ($provider_name) {
             case 'gemini':
-                require_once AUTOBLOGGER_PLUGIN_DIR . 'includes/providers/class-gemini-provider.php';
-                return new AutoBlogger_Gemini_Provider($this->settings);
+                if (class_exists('AutoBlogger_Gemini_Provider')) {
+                    return new AutoBlogger_Gemini_Provider($this->settings);
+                }
+                break;
                 
             case 'openai':
-                require_once AUTOBLOGGER_PLUGIN_DIR . 'includes/providers/class-openai-provider.php';
-                return new AutoBlogger_OpenAI_Provider($this->settings);
+                if (class_exists('AutoBlogger_OpenAI_Provider')) {
+                    return new AutoBlogger_OpenAI_Provider($this->settings);
+                }
+                break;
                 
             case 'claude':
             default:
-                require_once AUTOBLOGGER_PLUGIN_DIR . 'includes/providers/class-claude-provider.php';
-                return new AutoBlogger_Claude_Provider($this->settings);
+                if (class_exists('AutoBlogger_Claude_Provider')) {
+                    return new AutoBlogger_Claude_Provider($this->settings);
+                }
+                break;
         }
+        
+        // Fallback to Claude if selected provider doesn't exist
+        if (class_exists('AutoBlogger_Claude_Provider')) {
+            return new AutoBlogger_Claude_Provider($this->settings);
+        }
+        
+        // If no provider available, throw error
+        throw new Exception('No AI provider available. Please check plugin installation.');
     }
     
     /**

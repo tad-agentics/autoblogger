@@ -237,6 +237,11 @@ class AutoBlogger_Hooks {
      * Enqueue editor assets
      */
     public function enqueue_editor_assets() {
+        // Initialize Gutenberg if not already done
+        if (!$this->gutenberg && class_exists('AutoBlogger_Gutenberg')) {
+            $this->gutenberg = new AutoBlogger_Gutenberg();
+        }
+        
         if ($this->gutenberg && method_exists($this->gutenberg, 'enqueue_assets')) {
             $this->gutenberg->enqueue_assets();
         }
@@ -247,6 +252,11 @@ class AutoBlogger_Hooks {
      * OPTIMIZATION: REST API class only initialized when actually registering routes
      */
     public function register_rest_routes() {
+        // Don't initialize during plugin activation/deactivation
+        if (defined('AUTOBLOGGER_ACTIVATING') || defined('AUTOBLOGGER_DEACTIVATING')) {
+            return;
+        }
+        
         // Lazy load REST API class only when needed
         if (!$this->rest_api && class_exists('AutoBlogger_REST_API')) {
             $this->rest_api = new AutoBlogger_REST_API();

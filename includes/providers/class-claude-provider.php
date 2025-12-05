@@ -10,8 +10,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-require_once AUTOBLOGGER_PLUGIN_DIR . 'includes/interfaces/interface-ai-provider.php';
-
 class AutoBlogger_Claude_Provider implements AutoBlogger_AI_Provider_Interface {
     
     private $api_key;

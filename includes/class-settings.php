@@ -40,7 +40,9 @@ class AutoBlogger_Settings {
             update_option('autoblogger_encryption_key', $key);
             
             // Warn admin to move key to wp-config.php
-            AutoBlogger_Logger::warning('Encryption key stored in database. For better security, add to wp-config.php');
+            if (class_exists('AutoBlogger_Logger')) {
+                AutoBlogger_Logger::warning('Encryption key stored in database. For better security, add to wp-config.php');
+            }
         }
         
         return $key;
