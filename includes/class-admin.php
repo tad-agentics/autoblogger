@@ -72,14 +72,9 @@ class AutoBlogger_Admin {
         
         // CRITICAL: Only load on our specific admin pages
         // This prevents loading heavy JS on Comments, Settings, etc.
-        $allowed_pages = [
-            'toplevel_page_autoblogger',           // Main settings page
-            'autoblogger_page_autoblogger-knowledge', // Knowledge base
-            'autoblogger_page_autoblogger-usage'      // Usage dashboard
-        ];
-        
-        if (!in_array($hook, $allowed_pages)) {
-            return; // Exit early - don't load anything
+        // Check if we're on any AutoBlogger page
+        if (strpos($hook, 'autoblogger') === false) {
+            return; // Exit early - not on our pages
         }
         
         // Enqueue admin React app

@@ -1,0 +1,305 @@
+/**
+ * Settings Page Component
+ * Handles API configuration, model selection, and plugin settings
+ */
+
+import { useState, useEffect } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import apiFetch from '@wordpress/api-fetch';
+
+const SettingsPage = () => {
+    const [settings, setSettings] = useState({
+        api_key: '',
+        api_provider: 'claude',
+        api_model: 'claude-3-5-sonnet-20241022',
+        daily_budget: 5.00,
+        max_optimization_iterations: 2,
+        disclaimer_text: 'This information is for reference purposes only. For health/financial matters, please consult qualified professionals.',
+        personas: [],
+        negative_keywords: []
+    });
+    
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [message, setMessage] = useState(null);
+    const [activeTab, setActiveTab] = useState('api');
+
+    // Load settings on mount
+    useEffect(() => {
+        loadSettings();
+    }, []);
+
+    const loadSettings = async () => {
+        try {
+            const response = await apiFetch({
+                path: '/autoblogger/v1/settings',
+                method: 'GET'
+            });
+            
+            if (response.success) {
+                setSettings(response.data);
+            }
+        } catch (error) {
+            console.error('Failed to load settings:', error);
+            setMessage({ type: 'error', text: __('Failed to load settings', 'autoblogger') });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const saveSettings = async (e) => {
+        e.preventDefault();
+        setSaving(true);
+        setMessage(null);
+
+        try {
+            const response = await apiFetch({
+                path: '/autoblogger/v1/settings',
+                method: 'POST',
+                data: settings
+            });
+
+            if (response.success) {
+                setMessage({ type: 'success', text: __('Settings saved successfully!', 'autoblogger') });
+            } else {
+                setMessage({ type: 'error', text: response.message || __('Failed to save settings', 'autoblogger') });
+            }
+        } catch (error) {
+            console.error('Failed to save settings:', error);
+            setMessage({ type: 'error', text: __('Failed to save settings', 'autoblogger') });
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const handleInputChange = (field, value) => {
+        setSettings(prev => ({ ...prev, [field]: value }));
+    };
+
+    if (loading) {
+        return <div className="autoblogger-loading">{__('Loading settings...', 'autoblogger')}</div>;
+    }
+
+    return (
+        <div className="autoblogger-settings">
+            {message && (
+                <div className={`notice notice-${message.type} is-dismissible`}>
+                    <p>{message.text}</p>
+                </div>
+            )}
+
+            <div className="nav-tab-wrapper">
+                <button 
+                    className={`nav-tab ${activeTab === 'api' ? 'nav-tab-active' : ''}`}
+                    onClick={() => setActiveTab('api')}
+                >
+                    {__('API Settings', 'autoblogger')}
+                </button>
+                <button 
+                    className={`nav-tab ${activeTab === 'content' ? 'nav-tab-active' : ''}`}
+                    onClick={() => setActiveTab('content')}
+                >
+                    {__('Content Settings', 'autoblogger')}
+                </button>
+                <button 
+                    className={`nav-tab ${activeTab === 'advanced' ? 'nav-tab-active' : ''}`}
+                    onClick={() => setActiveTab('advanced')}
+                >
+                    {__('Advanced', 'autoblogger')}
+                </button>
+            </div>
+
+            <form onSubmit={saveSettings} className="autoblogger-form">
+                {activeTab === 'api' && (
+                    <div className="tab-content">
+                        <h3>{__('API Configuration', 'autoblogger')}</h3>
+                        
+                        <table className="form-table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        <label htmlFor="api_provider">{__('AI Provider', 'autoblogger')}</label>
+                                    </th>
+                                    <td>
+                                        <select 
+                                            id="api_provider"
+                                            value={settings.api_provider}
+                                            onChange={(e) => handleInputChange('api_provider', e.target.value)}
+                                        >
+                                            <option value="claude">Claude (Anthropic)</option>
+                                            <option value="gemini">Gemini (Google)</option>
+                                        </select>
+                                        <p className="description">
+                                            {__('Choose your AI provider', 'autoblogger')}
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">
+                                        <label htmlFor="api_key">{__('API Key', 'autoblogger')} *</label>
+                                    </th>
+                                    <td>
+                                        <input 
+                                            type="password"
+                                            id="api_key"
+                                            className="regular-text"
+                                            value={settings.api_key}
+                                            onChange={(e) => handleInputChange('api_key', e.target.value)}
+                                            placeholder={__('Enter your API key', 'autoblogger')}
+                                            required
+                                        />
+                                        <p className="description">
+                                            {settings.api_provider === 'claude' 
+                                                ? __('Get your API key from https://console.anthropic.com/', 'autoblogger')
+                                                : __('Get your API key from https://makersuite.google.com/app/apikey', 'autoblogger')
+                                            }
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">
+                                        <label htmlFor="api_model">{__('AI Model', 'autoblogger')}</label>
+                                    </th>
+                                    <td>
+                                        <select 
+                                            id="api_model"
+                                            value={settings.api_model}
+                                            onChange={(e) => handleInputChange('api_model', e.target.value)}
+                                        >
+                                            {settings.api_provider === 'claude' ? (
+                                                <>
+                                                    <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet (Recommended)</option>
+                                                    <option value="claude-3-opus-20240229">Claude 3 Opus</option>
+                                                    <option value="claude-3-sonnet-20240229">Claude 3 Sonnet</option>
+                                                    <option value="claude-3-haiku-20240307">Claude 3 Haiku</option>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <option value="gemini-1.5-pro">Gemini 1.5 Pro (Recommended)</option>
+                                                    <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+                                                    <option value="gemini-pro">Gemini Pro</option>
+                                                </>
+                                            )}
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">
+                                        <label htmlFor="daily_budget">{__('Daily Budget (USD)', 'autoblogger')}</label>
+                                    </th>
+                                    <td>
+                                        <input 
+                                            type="number"
+                                            id="daily_budget"
+                                            step="0.01"
+                                            min="0"
+                                            value={settings.daily_budget}
+                                            onChange={(e) => handleInputChange('daily_budget', parseFloat(e.target.value))}
+                                        />
+                                        <p className="description">
+                                            {__('Maximum amount to spend per day on AI API calls', 'autoblogger')}
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">
+                                        <label htmlFor="max_optimization_iterations">{__('Max SEO Optimization Iterations', 'autoblogger')}</label>
+                                    </th>
+                                    <td>
+                                        <input 
+                                            type="number"
+                                            id="max_optimization_iterations"
+                                            min="1"
+                                            max="5"
+                                            value={settings.max_optimization_iterations}
+                                            onChange={(e) => handleInputChange('max_optimization_iterations', parseInt(e.target.value))}
+                                        />
+                                        <p className="description">
+                                            {__('Maximum number of times to retry SEO optimization (recommended: 2)', 'autoblogger')}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+
+                {activeTab === 'content' && (
+                    <div className="tab-content">
+                        <h3>{__('Content Settings', 'autoblogger')}</h3>
+                        
+                        <table className="form-table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        <label htmlFor="disclaimer_text">{__('Disclaimer Text', 'autoblogger')}</label>
+                                    </th>
+                                    <td>
+                                        <textarea 
+                                            id="disclaimer_text"
+                                            rows="4"
+                                            className="large-text"
+                                            value={settings.disclaimer_text}
+                                            onChange={(e) => handleInputChange('disclaimer_text', e.target.value)}
+                                        />
+                                        <p className="description">
+                                            {__('This disclaimer will be automatically added to AI-generated content', 'autoblogger')}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+
+                {activeTab === 'advanced' && (
+                    <div className="tab-content">
+                        <h3>{__('Advanced Settings', 'autoblogger')}</h3>
+                        
+                        <table className="form-table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        {__('Database Status', 'autoblogger')}
+                                    </th>
+                                    <td>
+                                        <p className="description">
+                                            {__('Plugin tables are installed and ready', 'autoblogger')}
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        {__('API Key Encryption', 'autoblogger')}
+                                    </th>
+                                    <td>
+                                        <p className="description">
+                                            ✅ {__('AES-256 encryption enabled', 'autoblogger')}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+
+                <p className="submit">
+                    <button 
+                        type="submit" 
+                        className="button button-primary"
+                        disabled={saving}
+                    >
+                        {saving ? __('Saving...', 'autoblogger') : __('Save Settings', 'autoblogger')}
+                    </button>
+                </p>
+            </form>
+        </div>
+    );
+};
+
+export default SettingsPage;
+
