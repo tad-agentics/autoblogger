@@ -29,34 +29,10 @@ define('AUTOBLOGGER_BASENAME', plugin_basename(__FILE__));
 // Simple autoloader
 spl_autoload_register(function($class) {
     if (strpos($class, 'AutoBlogger_') === 0) {
-        $class_name = strtolower(str_replace('_', '-', substr($class, 12)));
-        
-        // Try includes folder first
-        $file = AUTOBLOGGER_PATH . 'includes/class-' . $class_name . '.php';
+        $file = AUTOBLOGGER_PATH . 'includes/class-' . 
+                strtolower(str_replace('_', '-', substr($class, 12))) . '.php';
         if (file_exists($file)) {
             require_once $file;
-            return;
-        }
-        
-        // Try editor folder for Gutenberg class
-        $file = AUTOBLOGGER_PATH . 'editor/class-' . $class_name . '.php';
-        if (file_exists($file)) {
-            require_once $file;
-            return;
-        }
-        
-        // Try admin folder
-        $file = AUTOBLOGGER_PATH . 'admin/class-' . $class_name . '.php';
-        if (file_exists($file)) {
-            require_once $file;
-            return;
-        }
-        
-        // Try api folder
-        $file = AUTOBLOGGER_PATH . 'api/class-' . $class_name . '.php';
-        if (file_exists($file)) {
-            require_once $file;
-            return;
         }
     }
 });

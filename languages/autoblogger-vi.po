@@ -11,6 +11,9 @@ msgstr ""
 msgid "AutoBlogger"
 msgstr "AutoBlogger"
 
+msgid "AutoBlogger AI"
+msgstr "AutoBlogger AI"
+
 msgid "Settings"
 msgstr "Cài đặt"
 
@@ -37,6 +40,171 @@ msgstr "Tối ưu hóa"
 
 msgid "Expand"
 msgstr "Mở rộng"
+
+msgid "Main Keyword"
+msgstr "Từ khóa chính"
+
+msgid "Writing Tone"
+msgstr "Giọng văn"
+
+msgid "Academic"
+msgstr "Học thuật"
+
+msgid "Casual"
+msgstr "Thân mật"
+
+msgid "Professional"
+msgstr "Chuyên nghiệp"
+
+msgid "Friendly"
+msgstr "Thân thiện"
+
+msgid "Human Story (Optional)"
+msgstr "Câu chuyện cá nhân (Tùy chọn)"
+
+msgid "Add a personal experience or story..."
+msgstr "Thêm trải nghiệm hoặc câu chuyện cá nhân..."
+
+msgid "This helps with E-E-A-T compliance"
+msgstr "Điều này giúp tuân thủ E-E-A-T"
+
+msgid "Custom Outline (Optional)"
+msgstr "Dàn ý tùy chỉnh (Tùy chọn)"
+
+msgid "Leave empty to auto-generate"
+msgstr "Để trống để tự động tạo"
+
+msgid "Estimated Cost:"
+msgstr "Chi phí ước tính:"
+
+msgid "Actions"
+msgstr "Hành động"
+
+msgid "Write Section"
+msgstr "Viết phần"
+
+msgid "Expand Selected Text"
+msgstr "Mở rộng văn bản đã chọn"
+
+msgid "SEO Doctor"
+msgstr "Bác sĩ SEO"
+
+msgid "Automatically optimize your content for better SEO scores."
+msgstr "Tự động tối ưu hóa nội dung để đạt điểm SEO tốt hơn."
+
+msgid "Fix SEO Errors"
+msgstr "Sửa lỗi SEO"
+
+msgid "Works with RankMath. Max 2 iterations."
+msgstr "Hoạt động với RankMath. Tối đa 2 lần lặp."
+
+msgid "Version History"
+msgstr "Lịch sử phiên bản"
+
+msgid "Loading..."
+msgstr "Đang tải..."
+
+msgid "No version history yet. Versions are saved automatically when AI modifies content."
+msgstr "Chưa có lịch sử phiên bản. Các phiên bản được lưu tự động khi AI chỉnh sửa nội dung."
+
+msgid "Edit"
+msgstr "Chỉnh sửa"
+
+msgid "Restore"
+msgstr "Khôi phục"
+
+msgid "Restore this version? Current content will be saved first."
+msgstr "Khôi phục phiên bản này? Nội dung hiện tại sẽ được lưu trước."
+
+msgid "Failed to restore version"
+msgstr "Không thể khôi phục phiên bản"
+
+msgid "Help"
+msgstr "Trợ giúp"
+
+msgid "Quick Guide:"
+msgstr "Hướng dẫn nhanh:"
+
+msgid "Enter your main keyword"
+msgstr "Nhập từ khóa chính"
+
+msgid "Choose writing tone"
+msgstr "Chọn giọng văn"
+
+msgid "Click \"Generate Draft\""
+msgstr "Nhấp \"Tạo bản nháp\""
+
+msgid "Review and edit the content"
+msgstr "Xem xét và chỉnh sửa nội dung"
+
+msgid "Use \"Fix SEO Errors\" if needed"
+msgstr "Sử dụng \"Sửa lỗi SEO\" nếu cần"
+
+msgid "Configure Settings"
+msgstr "Cấu hình cài đặt"
+
+msgid "Please enter a keyword"
+msgstr "Vui lòng nhập từ khóa"
+
+msgid "Draft generated successfully!"
+msgstr "Tạo bản nháp thành công!"
+
+msgid "Cost"
+msgstr "Chi phí"
+
+msgid "Generation failed"
+msgstr "Tạo nội dung thất bại"
+
+msgid "Outline generated!"
+msgstr "Tạo dàn ý thành công!"
+
+msgid "Outline generation failed"
+msgstr "Tạo dàn ý thất bại"
+
+msgid "No content to optimize"
+msgstr "Không có nội dung để tối ưu"
+
+msgid "Content optimized!"
+msgstr "Tối ưu nội dung thành công!"
+
+msgid "iterations"
+msgstr "lần lặp"
+
+msgid "Optimization failed"
+msgstr "Tối ưu hóa thất bại"
+
+msgid "Enter section title/heading:"
+msgstr "Nhập tiêu đề phần:"
+
+msgid "Section added!"
+msgstr "Đã thêm phần!"
+
+msgid "Section generation failed"
+msgstr "Tạo phần thất bại"
+
+msgid "Please select text to expand"
+msgstr "Vui lòng chọn văn bản để mở rộng"
+
+msgid "Text expanded!"
+msgstr "Mở rộng văn bản thành công!"
+
+msgid "Text expansion failed"
+msgstr "Mở rộng văn bản thất bại"
+
+msgid "Generating..."
+msgstr "Đang tạo..."
+
+msgid "Optimizing..."
+msgstr "Đang tối ưu..."
+
+msgid "Topic Input"
+msgstr "Nhập chủ đề"
+
+msgid "e.g., Sao Phá Quân"
+msgstr "ví dụ: Sao Phá Quân"
+
+msgid "Enter the main topic or keyword for your article"
+msgstr "Nhập chủ đề hoặc từ khóa chính cho bài viết của bạn"
 
 msgid "This information is for reference purposes only."
 msgstr "Thông tin này chỉ mang tính chất tham khảo."
