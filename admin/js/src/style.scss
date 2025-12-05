@@ -28,6 +28,41 @@
             width: 200px;
         }
     }
+
+    .autoblogger-prompts {
+        .prompt-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #dcdcde;
+
+            &:last-of-type {
+                border-bottom: none;
+            }
+
+            h4 {
+                margin: 0 0 10px 0;
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            textarea {
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 13px;
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #8c8f94;
+                border-radius: 4px;
+                background: #f6f7f7;
+
+                &:focus {
+                    background: #fff;
+                    border-color: #2271b1;
+                    outline: none;
+                    box-shadow: 0 0 0 1px #2271b1;
+                }
+            }
+        }
+    }
 }
 
 // Knowledge Base Page

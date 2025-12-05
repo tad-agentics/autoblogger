@@ -19,14 +19,24 @@ const SettingsPage = () => {
         negative_keywords: []
     });
     
+    const [prompts, setPrompts] = useState({
+        'generate-draft': '',
+        'generate-outline': '',
+        'generate-section': '',
+        'optimize-content': '',
+        'expand-text': ''
+    });
+    
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [savingPrompts, setSavingPrompts] = useState(false);
     const [message, setMessage] = useState(null);
     const [activeTab, setActiveTab] = useState('api');
 
-    // Load settings on mount
+    // Load settings and prompts on mount
     useEffect(() => {
         loadSettings();
+        loadPrompts();
     }, []);
 
     const loadSettings = async () => {
@@ -44,6 +54,21 @@ const SettingsPage = () => {
             setMessage({ type: 'error', text: __('Failed to load settings', 'autoblogger') });
         } finally {
             setLoading(false);
+        }
+    };
+
+    const loadPrompts = async () => {
+        try {
+            const response = await apiFetch({
+                path: '/autoblogger/v1/prompts',
+                method: 'GET'
+            });
+            
+            if (response.success) {
+                setPrompts(response.data);
+            }
+        } catch (error) {
+            console.error('Failed to load prompts:', error);
         }
     };
 
@@ -76,6 +101,35 @@ const SettingsPage = () => {
         setSettings(prev => ({ ...prev, [field]: value }));
     };
 
+    const handlePromptChange = (template, value) => {
+        setPrompts(prev => ({ ...prev, [template]: value }));
+    };
+
+    const savePrompts = async (e) => {
+        e.preventDefault();
+        setSavingPrompts(true);
+        setMessage(null);
+
+        try {
+            const response = await apiFetch({
+                path: '/autoblogger/v1/prompts',
+                method: 'POST',
+                data: prompts
+            });
+
+            if (response.success) {
+                setMessage({ type: 'success', text: __('Prompts saved successfully!', 'autoblogger') });
+            } else {
+                setMessage({ type: 'error', text: response.message || __('Failed to save prompts', 'autoblogger') });
+            }
+        } catch (error) {
+            console.error('Failed to save prompts:', error);
+            setMessage({ type: 'error', text: __('Failed to save prompts', 'autoblogger') });
+        } finally {
+            setSavingPrompts(false);
+        }
+    };
+
     if (loading) {
         return <div className="autoblogger-loading">{__('Loading settings...', 'autoblogger')}</div>;
     }
@@ -94,6 +148,12 @@ const SettingsPage = () => {
                     onClick={() => setActiveTab('api')}
                 >
                     {__('API Settings', 'autoblogger')}
+                </button>
+                <button 
+                    className={`nav-tab ${activeTab === 'prompts' ? 'nav-tab-active' : ''}`}
+                    onClick={() => setActiveTab('prompts')}
+                >
+                    {__('Prompts', 'autoblogger')}
                 </button>
                 <button 
                     className={`nav-tab ${activeTab === 'content' ? 'nav-tab-active' : ''}`}
@@ -225,6 +285,83 @@ const SettingsPage = () => {
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                )}
+
+                {activeTab === 'prompts' && (
+                    <div className="tab-content">
+                        <h3>{__('Prompt Templates', 'autoblogger')}</h3>
+                        <p className="description" style={{ marginBottom: '20px' }}>
+                            {__('Customize the AI prompts used for content generation. Use placeholders like {{keyword}}, {{knowledge_context}}, {{user_story}}.', 'autoblogger')}
+                        </p>
+                        
+                        <div className="autoblogger-prompts">
+                            <div className="prompt-section">
+                                <h4>{__('Generate Draft', 'autoblogger')}</h4>
+                                <textarea 
+                                    rows="8"
+                                    className="large-text code"
+                                    value={prompts['generate-draft']}
+                                    onChange={(e) => handlePromptChange('generate-draft', e.target.value)}
+                                    placeholder={__('Enter prompt template for generating full article drafts', 'autoblogger')}
+                                />
+                            </div>
+
+                            <div className="prompt-section">
+                                <h4>{__('Generate Outline', 'autoblogger')}</h4>
+                                <textarea 
+                                    rows="6"
+                                    className="large-text code"
+                                    value={prompts['generate-outline']}
+                                    onChange={(e) => handlePromptChange('generate-outline', e.target.value)}
+                                    placeholder={__('Enter prompt template for generating article outlines', 'autoblogger')}
+                                />
+                            </div>
+
+                            <div className="prompt-section">
+                                <h4>{__('Generate Section', 'autoblogger')}</h4>
+                                <textarea 
+                                    rows="6"
+                                    className="large-text code"
+                                    value={prompts['generate-section']}
+                                    onChange={(e) => handlePromptChange('generate-section', e.target.value)}
+                                    placeholder={__('Enter prompt template for generating individual sections', 'autoblogger')}
+                                />
+                            </div>
+
+                            <div className="prompt-section">
+                                <h4>{__('Optimize Content (SEO)', 'autoblogger')}</h4>
+                                <textarea 
+                                    rows="6"
+                                    className="large-text code"
+                                    value={prompts['optimize-content']}
+                                    onChange={(e) => handlePromptChange('optimize-content', e.target.value)}
+                                    placeholder={__('Enter prompt template for SEO optimization', 'autoblogger')}
+                                />
+                            </div>
+
+                            <div className="prompt-section">
+                                <h4>{__('Expand Text', 'autoblogger')}</h4>
+                                <textarea 
+                                    rows="6"
+                                    className="large-text code"
+                                    value={prompts['expand-text']}
+                                    onChange={(e) => handlePromptChange('expand-text', e.target.value)}
+                                    placeholder={__('Enter prompt template for expanding selected text', 'autoblogger')}
+                                />
+                            </div>
+
+                            <p className="submit">
+                                <button 
+                                    type="button"
+                                    className="button button-primary"
+                                    onClick={savePrompts}
+                                    disabled={savingPrompts}
+                                >
+                                    {savingPrompts ? __('Saving...', 'autoblogger') : __('Save Prompts', 'autoblogger')}
+                                </button>
+                            </p>
+                        </div>
                     </div>
                 )}
 

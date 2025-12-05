@@ -1,75 +1,82 @@
+/**
+ * Editor sidebar styles
+ */
+
 .autoblogger-sidebar {
-    padding: 16px;
+    padding: 0;
 
-    .autoblogger-input {
+    .components-panel__body {
+        border-top: 1px solid #ddd;
+    }
+
+    .components-base-control {
         margin-bottom: 16px;
     }
 
-    .autoblogger-button {
+    .components-text-control__input,
+    .components-textarea-control__input,
+    .components-select-control__input {
         width: 100%;
-        margin-bottom: 8px;
     }
 
-    .autoblogger-cost-display {
-        padding: 12px;
-        background: #f0f0f0;
+    .components-button {
+        &.is-primary {
+            background: #2271b1;
+            border-color: #2271b1;
+
+            &:hover:not(:disabled) {
+                background: #135e96;
+                border-color: #135e96;
+            }
+        }
+
+        &.is-secondary {
+            &:hover:not(:disabled) {
+                background: #f0f0f1;
+            }
+        }
+    }
+
+    // Cost estimate styling
+    .cost-estimate {
+        padding: 10px;
+        background: #f0f0f1;
         border-radius: 4px;
-        margin-bottom: 16px;
+        margin-bottom: 10px;
+        font-size: 13px;
+
+        &.cost-green {
+            border-left: 3px solid #46b450;
+        }
+
+        &.cost-yellow {
+            border-left: 3px solid #ffb900;
+        }
+
+        &.cost-red {
+            border-left: 3px solid #dc3232;
+        }
+    }
+
+    // Help section
+    ol {
         font-size: 12px;
+        line-height: 1.6;
+        color: #666;
     }
 
-    .autoblogger-seo-doctor {
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin-top: 16px;
+    a {
+        color: #2271b1;
+        text-decoration: none;
 
-        .seo-score {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 8px;
-
-            &.good {
-                color: #46b450;
-            }
-
-            &.warning {
-                color: #ffb900;
-            }
-
-            &.error {
-                color: #dc3232;
-            }
-        }
-
-        .seo-issues {
-            list-style: none;
-            padding: 0;
-            margin: 8px 0;
-
-            li {
-                padding: 4px 0;
-                font-size: 12px;
-                color: #666;
-            }
+        &:hover {
+            text-decoration: underline;
         }
     }
 }
 
-.autoblogger-disclaimer {
-    padding: 15px;
-    background-color: #fff3cd;
-    border: 1px solid #ffc107;
-    border-radius: 4px;
-    margin-bottom: 20px;
+// Loading state
+.autoblogger-sidebar.is-loading {
+    opacity: 0.6;
+    pointer-events: none;
 }
-
-.autoblogger-expert-note {
-    padding: 20px;
-    background-color: #e7f3ff;
-    border: 2px solid #2196F3;
-    border-left: 5px solid #2196F3;
-    border-radius: 4px;
-    margin-bottom: 20px;
-}
-
