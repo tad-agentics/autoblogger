@@ -38,7 +38,7 @@ class AutoBlogger_Gutenberg {
             return; // Exit early - not a supported post type
         }
         
-        $asset_file = AUTOBLOGGER_PATH . 'editor/js/build/index.asset.php';
+        $asset_file = AUTOBLOGGER_PATH . 'editor/js/build/editor.asset.php';
         
         if (!file_exists($asset_file)) {
             return;
@@ -50,7 +50,7 @@ class AutoBlogger_Gutenberg {
         $script_handle = 'autoblogger-editor';
         wp_enqueue_script(
             $script_handle,
-            AUTOBLOGGER_URL . 'editor/js/build/index.js',
+            AUTOBLOGGER_URL . 'editor/js/build/editor.js',
             $asset['dependencies'],
             $asset['version'],
             true // Load in footer
@@ -68,7 +68,7 @@ class AutoBlogger_Gutenberg {
         // Enqueue editor styles
         wp_enqueue_style(
             'autoblogger-editor',
-            AUTOBLOGGER_URL . 'editor/js/build/index.css',
+            AUTOBLOGGER_URL . 'editor/js/build/style-editor.css',
             ['wp-edit-post'],
             $asset['version']
         );

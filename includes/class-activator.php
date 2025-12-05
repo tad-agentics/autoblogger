@@ -19,7 +19,7 @@ class AutoBlogger_Activator {
      */
     public static function activate() {
         // Check for class name collisions FIRST
-        require_once AUTOBLOGGER_PLUGIN_DIR . 'includes/class-collision-checker.php';
+        require_once AUTOBLOGGER_PATH . 'includes/class-collision-checker.php';
         
         $conflicts = AutoBlogger_Collision_Checker::check_collisions();
         

@@ -50,8 +50,11 @@ class AutoBlogger_Collision_Checker {
                     $reflection = new ReflectionClass($class_name);
                     $file = $reflection->getFileName();
                     
-                    // Check if file is in our plugin directory
-                    if (strpos($file, 'autoblogger') === false) {
+                    // Check if file is in our plugin directory (case-insensitive)
+                    $normalized_file = str_replace('\\', '/', strtolower($file));
+                    $normalized_plugin_path = str_replace('\\', '/', strtolower(AUTOBLOGGER_PATH));
+                    
+                    if (strpos($normalized_file, $normalized_plugin_path) === false) {
                         $conflicts[] = [
                             'class' => $class_name,
                             'file' => $file,

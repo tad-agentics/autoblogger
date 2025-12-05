@@ -83,7 +83,7 @@ class AutoBlogger_Admin {
         }
         
         // Enqueue admin React app
-        $asset_file = AUTOBLOGGER_PATH . 'admin/js/build/index.asset.php';
+        $asset_file = AUTOBLOGGER_PATH . 'admin/js/build/admin.asset.php';
         
         if (file_exists($asset_file)) {
             $asset = require $asset_file;
@@ -91,7 +91,7 @@ class AutoBlogger_Admin {
             $script_handle = 'autoblogger-admin';
             wp_enqueue_script(
                 $script_handle,
-                AUTOBLOGGER_URL . 'admin/js/build/index.js',
+                AUTOBLOGGER_URL . 'admin/js/build/admin.js',
                 $asset['dependencies'],
                 $asset['version'],
                 true // Load in footer
@@ -108,7 +108,7 @@ class AutoBlogger_Admin {
             
             wp_enqueue_style(
                 'autoblogger-admin',
-                AUTOBLOGGER_URL . 'admin/js/build/index.css',
+                AUTOBLOGGER_URL . 'admin/js/build/style-admin.css',
                 ['wp-components'],
                 $asset['version']
             );
