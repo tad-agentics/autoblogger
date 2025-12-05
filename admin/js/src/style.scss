@@ -202,6 +202,37 @@
             max-width: 100%;
         }
     }
+
+    .autoblogger-list-manager {
+        .list-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f6f7f7;
+            border-radius: 4px;
+
+            input, textarea {
+                margin: 0;
+            }
+
+            textarea {
+                resize: vertical;
+            }
+
+            .button-link-delete {
+                color: #b32d2e;
+                
+                &:hover {
+                    color: #dc3232;
+                }
+            }
+        }
+
+        > .button {
+            margin-top: 10px;
+        }
+    }
 }
 
 // Responsive

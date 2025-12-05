@@ -17,10 +17,61 @@ const SidebarPanel = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
     const [costEstimate, setCostEstimate] = useState(null);
+    const [versions, setVersions] = useState([]);
+    const [loadingVersions, setLoadingVersions] = useState(false);
 
     const { editPost } = useDispatch('core/editor');
     const postId = useSelect(select => select('core/editor').getCurrentPostId());
     const postContent = useSelect(select => select('core/editor').getEditedPostContent());
+
+    // Load version history
+    useEffect(() => {
+        if (postId) {
+            loadVersions();
+        }
+    }, [postId]);
+
+    const loadVersions = async () => {
+        setLoadingVersions(true);
+        try {
+            const response = await apiFetch({
+                path: `/autoblogger/v1/versions/${postId}`,
+                method: 'GET'
+            });
+            
+            if (response.success) {
+                setVersions(response.data || []);
+            }
+        } catch (error) {
+            console.error('Failed to load versions:', error);
+        } finally {
+            setLoadingVersions(false);
+        }
+    };
+
+    const handleRestoreVersion = async (versionIndex) => {
+        if (!confirm(__('Restore this version? Current content will be saved first.', 'autoblogger'))) {
+            return;
+        }
+
+        try {
+            const response = await apiFetch({
+                path: `/autoblogger/v1/versions/${postId}/restore`,
+                method: 'POST',
+                data: { version_index: versionIndex }
+            });
+
+            if (response.success) {
+                // Reload the post content
+                window.location.reload();
+            } else {
+                setMessage({ type: 'error', text: response.message });
+            }
+        } catch (error) {
+            console.error('Restore failed:', error);
+            setMessage({ type: 'error', text: __('Failed to restore version', 'autoblogger') });
+        }
+    };
 
     // Estimate cost based on keyword length
     useEffect(() => {
@@ -151,6 +202,88 @@ const SidebarPanel = () => {
         }
     };
 
+    const handleWriteSection = async () => {
+        const sectionTitle = prompt(__('Enter section title/heading:', 'autoblogger'));
+        if (!sectionTitle) return;
+
+        setLoading(true);
+        setMessage(null);
+
+        try {
+            const response = await apiFetch({
+                path: '/autoblogger/v1/generate/section',
+                method: 'POST',
+                data: {
+                    post_id: postId,
+                    section_title: sectionTitle,
+                    keyword: keyword || sectionTitle,
+                    persona
+                }
+            });
+
+            if (response.success) {
+                // Append to current content
+                const newContent = postContent + '\n\n' + response.content;
+                editPost({ content: newContent });
+                setMessage({ 
+                    type: 'success', 
+                    text: __('Section added!', 'autoblogger') + ` ($${response.cost.toFixed(4)})`
+                });
+            } else {
+                setMessage({ type: 'error', text: response.message });
+            }
+        } catch (error) {
+            console.error('Section generation failed:', error);
+            setMessage({ type: 'error', text: __('Section generation failed', 'autoblogger') });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleExpandText = async () => {
+        // Get selected text from editor
+        const selection = window.getSelection().toString();
+        if (!selection) {
+            setMessage({ type: 'error', text: __('Please select text to expand', 'autoblogger') });
+            return;
+        }
+
+        setLoading(true);
+        setMessage(null);
+
+        try {
+            const response = await apiFetch({
+                path: '/autoblogger/v1/expand',
+                method: 'POST',
+                data: {
+                    post_id: postId,
+                    text: selection,
+                    keyword: keyword || '',
+                    persona
+                }
+            });
+
+            if (response.success) {
+                // Replace selection with expanded text
+                // Note: This is a simplified approach. In production, you'd want to 
+                // properly handle the block editor's content replacement
+                const newContent = postContent.replace(selection, response.content);
+                editPost({ content: newContent });
+                setMessage({ 
+                    type: 'success', 
+                    text: __('Text expanded!', 'autoblogger') + ` ($${response.cost.toFixed(4)})`
+                });
+            } else {
+                setMessage({ type: 'error', text: response.message });
+            }
+        } catch (error) {
+            console.error('Text expansion failed:', error);
+            setMessage({ type: 'error', text: __('Text expansion failed', 'autoblogger') });
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="autoblogger-sidebar">
             {message && (
@@ -236,6 +369,24 @@ const SidebarPanel = () => {
                     >
                         {loading ? __('Generating...', 'autoblogger') : __('Generate Draft', 'autoblogger')}
                     </Button>
+
+                    <Button
+                        variant="secondary"
+                        onClick={handleWriteSection}
+                        disabled={loading}
+                        style={{ justifyContent: 'center' }}
+                    >
+                        {__('Write Section', 'autoblogger')}
+                    </Button>
+
+                    <Button
+                        variant="secondary"
+                        onClick={handleExpandText}
+                        disabled={loading}
+                        style={{ justifyContent: 'center' }}
+                    >
+                        {__('Expand Selected Text', 'autoblogger')}
+                    </Button>
                 </div>
             </PanelBody>
 
@@ -257,6 +408,48 @@ const SidebarPanel = () => {
                 <p style={{ fontSize: '11px', color: '#999', marginTop: '10px' }}>
                     {__('Works with RankMath. Max 2 iterations.', 'autoblogger')}
                 </p>
+            </PanelBody>
+
+            <PanelBody title={__('Version History', 'autoblogger')} initialOpen={false}>
+                {loadingVersions ? (
+                    <p style={{ fontSize: '12px', color: '#666' }}>{__('Loading...', 'autoblogger')}</p>
+                ) : versions.length === 0 ? (
+                    <p style={{ fontSize: '12px', color: '#666' }}>
+                        {__('No version history yet. Versions are saved automatically when AI modifies content.', 'autoblogger')}
+                    </p>
+                ) : (
+                    <div style={{ fontSize: '12px' }}>
+                        {versions.map((version, index) => (
+                            <div 
+                                key={index} 
+                                style={{ 
+                                    padding: '10px',
+                                    marginBottom: '10px',
+                                    background: '#f6f7f7',
+                                    borderRadius: '4px',
+                                    borderLeft: '3px solid #2271b1'
+                                }}
+                            >
+                                <div style={{ fontWeight: 'bold', marginBottom: '5px' }}>
+                                    {version.operation || __('Edit', 'autoblogger')}
+                                </div>
+                                <div style={{ color: '#666', marginBottom: '5px' }}>
+                                    {new Date(version.timestamp).toLocaleString()}
+                                </div>
+                                <div style={{ marginBottom: '8px', maxHeight: '60px', overflow: 'hidden', color: '#666' }}>
+                                    {version.content.substring(0, 100)}...
+                                </div>
+                                <Button
+                                    variant="secondary"
+                                    isSmall
+                                    onClick={() => handleRestoreVersion(index)}
+                                >
+                                    {__('Restore', 'autoblogger')}
+                                </Button>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </PanelBody>
 
             <PanelBody title={__('Help', 'autoblogger')} initialOpen={false}>

@@ -111,6 +111,69 @@ const KnowledgeBasePage = () => {
         setShowForm(false);
     };
 
+    const handleExport = () => {
+        const dataStr = JSON.stringify(entries, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `autoblogger-knowledge-${new Date().toISOString().split('T')[0]}.json`;
+        link.click();
+        URL.revokeObjectURL(url);
+        setMessage({ type: 'success', text: __('Knowledge base exported!', 'autoblogger') });
+    };
+
+    const handleImport = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            try {
+                const importedData = JSON.parse(event.target.result);
+                
+                if (!Array.isArray(importedData)) {
+                    setMessage({ type: 'error', text: __('Invalid JSON format', 'autoblogger') });
+                    return;
+                }
+
+                let successCount = 0;
+                let errorCount = 0;
+
+                for (const entry of importedData) {
+                    try {
+                        await apiFetch({
+                            path: '/autoblogger/v1/knowledge',
+                            method: 'POST',
+                            data: {
+                                keyword: entry.keyword,
+                                content: typeof entry.content === 'string' ? entry.content : JSON.stringify(entry.content),
+                                metadata: typeof entry.metadata === 'string' ? entry.metadata : JSON.stringify(entry.metadata || {})
+                            }
+                        });
+                        successCount++;
+                    } catch (error) {
+                        errorCount++;
+                        console.error('Failed to import entry:', entry.keyword, error);
+                    }
+                }
+
+                loadEntries();
+                setMessage({ 
+                    type: 'success', 
+                    text: __('Import complete!', 'autoblogger') + ` ${successCount} ${__('success', 'autoblogger')}, ${errorCount} ${__('failed', 'autoblogger')}`
+                });
+            } catch (error) {
+                console.error('Import failed:', error);
+                setMessage({ type: 'error', text: __('Failed to parse JSON file', 'autoblogger') });
+            }
+        };
+        reader.readAsText(file);
+        
+        // Reset file input
+        e.target.value = '';
+    };
+
     if (loading) {
         return <div className="autoblogger-loading">{__('Loading knowledge base...', 'autoblogger')}</div>;
     }
@@ -130,6 +193,22 @@ const KnowledgeBasePage = () => {
                 >
                     {showForm ? __('Cancel', 'autoblogger') : __('Add New Entry', 'autoblogger')}
                 </button>
+                <button 
+                    className="button button-secondary"
+                    onClick={handleExport}
+                    style={{ marginLeft: '10px' }}
+                >
+                    {__('Export JSON', 'autoblogger')}
+                </button>
+                <label className="button button-secondary" style={{ marginLeft: '10px', cursor: 'pointer' }}>
+                    {__('Import JSON', 'autoblogger')}
+                    <input 
+                        type="file"
+                        accept=".json"
+                        onChange={handleImport}
+                        style={{ display: 'none' }}
+                    />
+                </label>
             </div>
 
             {showForm && (

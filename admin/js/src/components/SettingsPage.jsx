@@ -388,6 +388,113 @@ const SettingsPage = () => {
                                         </p>
                                     </td>
                                 </tr>
+
+                                <tr>
+                                    <th scope="row">
+                                        <label>{__('Writing Personas', 'autoblogger')}</label>
+                                    </th>
+                                    <td>
+                                        <div className="autoblogger-list-manager">
+                                            {(settings.personas || []).map((persona, index) => (
+                                                <div key={index} className="list-item">
+                                                    <input 
+                                                        type="text"
+                                                        value={persona.name || ''}
+                                                        onChange={(e) => {
+                                                            const newPersonas = [...(settings.personas || [])];
+                                                            newPersonas[index] = { ...persona, name: e.target.value };
+                                                            handleInputChange('personas', newPersonas);
+                                                        }}
+                                                        placeholder={__('Persona name (e.g., Academic)', 'autoblogger')}
+                                                        style={{ width: '200px', marginRight: '10px' }}
+                                                    />
+                                                    <textarea
+                                                        value={persona.description || ''}
+                                                        onChange={(e) => {
+                                                            const newPersonas = [...(settings.personas || [])];
+                                                            newPersonas[index] = { ...persona, description: e.target.value };
+                                                            handleInputChange('personas', newPersonas);
+                                                        }}
+                                                        placeholder={__('Description/instructions for this writing style', 'autoblogger')}
+                                                        rows="2"
+                                                        style={{ width: '400px', marginRight: '10px' }}
+                                                    />
+                                                    <button 
+                                                        type="button"
+                                                        className="button button-small button-link-delete"
+                                                        onClick={() => {
+                                                            const newPersonas = settings.personas.filter((_, i) => i !== index);
+                                                            handleInputChange('personas', newPersonas);
+                                                        }}
+                                                    >
+                                                        {__('Remove', 'autoblogger')}
+                                                    </button>
+                                                </div>
+                                            ))}
+                                            <button 
+                                                type="button"
+                                                className="button button-secondary"
+                                                onClick={() => {
+                                                    const newPersonas = [...(settings.personas || []), { name: '', description: '' }];
+                                                    handleInputChange('personas', newPersonas);
+                                                }}
+                                            >
+                                                {__('+ Add Persona', 'autoblogger')}
+                                            </button>
+                                        </div>
+                                        <p className="description">
+                                            {__('Define custom writing styles/tones for content generation', 'autoblogger')}
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">
+                                        <label>{__('Negative Keywords', 'autoblogger')}</label>
+                                    </th>
+                                    <td>
+                                        <div className="autoblogger-list-manager">
+                                            {(settings.negative_keywords || []).map((keyword, index) => (
+                                                <div key={index} className="list-item">
+                                                    <input 
+                                                        type="text"
+                                                        value={keyword}
+                                                        onChange={(e) => {
+                                                            const newKeywords = [...(settings.negative_keywords || [])];
+                                                            newKeywords[index] = e.target.value;
+                                                            handleInputChange('negative_keywords', newKeywords);
+                                                        }}
+                                                        placeholder={__('Enter dangerous/prohibited phrase', 'autoblogger')}
+                                                        style={{ width: '400px', marginRight: '10px' }}
+                                                    />
+                                                    <button 
+                                                        type="button"
+                                                        className="button button-small button-link-delete"
+                                                        onClick={() => {
+                                                            const newKeywords = settings.negative_keywords.filter((_, i) => i !== index);
+                                                            handleInputChange('negative_keywords', newKeywords);
+                                                        }}
+                                                    >
+                                                        {__('Remove', 'autoblogger')}
+                                                    </button>
+                                                </div>
+                                            ))}
+                                            <button 
+                                                type="button"
+                                                className="button button-secondary"
+                                                onClick={() => {
+                                                    const newKeywords = [...(settings.negative_keywords || []), ''];
+                                                    handleInputChange('negative_keywords', newKeywords);
+                                                }}
+                                            >
+                                                {__('+ Add Keyword', 'autoblogger')}
+                                            </button>
+                                        </div>
+                                        <p className="description">
+                                            {__('Block dangerous phrases like "chắc chắn chết", "bỏ thuốc", etc. Content with these will be flagged.', 'autoblogger')}
+                                        </p>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
