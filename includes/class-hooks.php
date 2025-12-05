@@ -193,8 +193,8 @@ class AutoBlogger_Hooks {
      */
     public function register_blocks() {
         if (function_exists('register_block_type')) {
-            $disclaimer_path = AUTOBLOGGER_PATH . 'includes/blocks/disclaimer-block';
-            $expert_note_path = AUTOBLOGGER_PATH . 'includes/blocks/expert-note-block';
+            $disclaimer_path = AUTOBLOGGER_PATH . 'blocks/disclaimer-block';
+            $expert_note_path = AUTOBLOGGER_PATH . 'blocks/expert-note-block';
             
             if (file_exists($disclaimer_path)) {
                 register_block_type($disclaimer_path);

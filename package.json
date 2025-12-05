@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "AI-powered content generation with RankMath SEO optimization",
   "scripts": {
-    "build": "wp-scripts build --webpack-copy-php --webpack-src-dir=editor/js/src --output-path=editor/js/build && wp-scripts build --webpack-copy-php --webpack-src-dir=admin/js/src --output-path=admin/js/build",
-    "start": "wp-scripts start --webpack-copy-php --webpack-src-dir=editor/js/src --output-path=editor/js/build",
+    "build": "wp-scripts build --webpack-copy-php --webpack-src-dir=assets/js/editor/src --output-path=assets/js/editor/build && wp-scripts build --webpack-copy-php --webpack-src-dir=assets/js/admin/src --output-path=assets/js/admin/build",
+    "start": "wp-scripts start --webpack-copy-php --webpack-src-dir=assets/js/editor/src --output-path=assets/js/editor/build",
     "packages-update": "wp-scripts packages-update"
   },
   "keywords": [
