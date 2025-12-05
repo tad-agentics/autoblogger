@@ -13,7 +13,7 @@
     "ai",
     "content-generation"
   ],
-  "author": "Your Name",
+  "author": "Agentics",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
     "@wordpress/scripts": "^26.0.0"

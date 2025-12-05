@@ -4,7 +4,7 @@
  * Plugin URI: https://autoblogger.com
  * Description: AI-powered content generation with RankMath SEO optimization and E-E-A-T compliance
  * Version: 1.0.0
- * Author: Your Name
+ * Author: Agentics
  * Author URI: https://autoblogger.com
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -156,4 +156,5 @@ function autoblogger_add_action_links($links) {
     array_unshift($links, $settings_link);
     return $links;
 }
+
 
