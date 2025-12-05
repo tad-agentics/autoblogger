@@ -1,0 +1,19 @@
+Write content for the following section:
+
+SECTION HEADING: {{heading}}
+
+CONTEXT (previous sections):
+{{context}}
+
+KNOWLEDGE BASE:
+{{knowledge_context}}
+
+REQUIREMENTS:
+- Write 200-300 words
+- Writing style: {{persona}}
+- Include practical examples
+- Use Vietnamese
+- Maintain flow with previous sections
+
+Output only the section content:
+

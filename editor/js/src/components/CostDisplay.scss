@@ -1,0 +1,139 @@
+/**
+ * Cost Display Styles
+ */
+
+.autoblogger-cost-display {
+    padding: 16px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    border-left: 4px solid;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    &.autoblogger-cost-green {
+        border-left-color: #46b450;
+        background: #f0f9f1;
+    }
+
+    &.autoblogger-cost-yellow {
+        border-left-color: #ffb900;
+        background: #fff8e5;
+    }
+
+    &.autoblogger-cost-red {
+        border-left-color: #dc3232;
+        background: #fef7f7;
+    }
+
+    .cost-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+        font-size: 14px;
+
+        .cost-icon {
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .cost-label {
+            font-weight: 500;
+            color: #1e1e1e;
+        }
+
+        .cost-amount {
+            font-size: 18px;
+            font-weight: 700;
+            margin-left: auto;
+        }
+    }
+
+    .cost-message {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        padding: 8px 12px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.7);
+    }
+
+    .cost-details {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 12px;
+
+        .cost-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+
+            .detail-label {
+                font-weight: 500;
+            }
+
+            .detail-value {
+                font-family: 'Courier New', monospace;
+
+                small {
+                    font-size: 11px;
+                    color: #999;
+                }
+            }
+        }
+    }
+
+    .cost-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+        .button {
+            padding: 6px 16px;
+            font-size: 13px;
+            height: auto;
+            line-height: 1.4;
+        }
+    }
+}
+
+// Compact version for sidebar
+.autoblogger-sidebar {
+    .autoblogger-cost-display {
+        padding: 12px;
+        font-size: 12px;
+
+        .cost-header {
+            font-size: 13px;
+
+            .cost-amount {
+                font-size: 16px;
+            }
+        }
+
+        .cost-message {
+            font-size: 12px;
+            padding: 6px 10px;
+        }
+    }
+}
+
+// Animation for cost changes
+@keyframes costPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.autoblogger-cost-display.cost-updating {
+    .cost-amount {
+        animation: costPulse 0.3s ease-in-out;
+    }
+}
+

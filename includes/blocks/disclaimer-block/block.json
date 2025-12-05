@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "autoblogger/disclaimer",
+  "title": "Disclaimer",
+  "category": "common",
+  "icon": "warning",
+  "description": "Mandatory disclaimer for AI-generated content",
+  "supports": {
+    "html": false,
+    "reusable": false
+  },
+  "attributes": {
+    "content": {
+      "type": "string",
+      "default": "This information is for reference purposes only. For health/financial matters, please consult qualified professionals."
+    }
+  },
+  "textdomain": "autoblogger",
+  "editorScript": "file:./index.js"
+}
+

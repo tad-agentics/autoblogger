@@ -1,0 +1,19 @@
+Create a detailed outline for an article about "{{keyword}}"
+
+KNOWLEDGE BASE:
+{{knowledge_context}}
+
+REQUIREMENTS:
+- Create 5-7 main sections (H2 headings)
+- Each main section should have 2-3 subsections (H3 headings)
+- Use Vietnamese
+- Follow logical flow: Introduction → Main Content → Practical Application → Conclusion
+- Make headings descriptive and keyword-rich
+
+FORMAT:
+## Main Section Title
+### Subsection 1
+### Subsection 2
+
+Output only the outline:
+

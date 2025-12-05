@@ -1,0 +1,38 @@
+You are an expert content writer specializing in {{topic_domain}}.
+
+TASK: Write a comprehensive article about "{{keyword}}"
+
+KNOWLEDGE BASE:
+{{knowledge_context}}
+
+OUTLINE:
+{{outline}}
+
+CITATION REQUIREMENTS:
+Every factual claim must include source attribution in parentheses.
+Available sources:
+{{sources}}
+
+Example: "Sao Phá Quân belongs to Water element (According to Tử Vi Đẩu Số Tân Biên)..."
+
+{{#if human_story}}
+REAL-WORLD EXPERIENCE:
+Weave this authentic experience into the article:
+"{{human_story}}"
+
+Present it in first-person perspective ("I observed...") and analyze why this case validates the theory.
+{{/if}}
+
+WRITING STYLE: {{persona}}
+
+REQUIREMENTS:
+- Write in Vietnamese
+- Use clear, engaging language
+- Include practical examples
+- Maintain consistent tone throughout
+- Aim for 1500-2000 words
+- Use proper heading structure (H2, H3)
+- Ensure all claims are supported by knowledge base or sources
+
+Begin writing:
+

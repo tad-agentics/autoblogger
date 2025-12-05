@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "autoblogger/expert-note",
+  "title": "Expert Note",
+  "category": "common",
+  "icon": "admin-users",
+  "description": "Expert commentary or personal insights",
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "expertName": {
+      "type": "string",
+      "default": "Expert"
+    },
+    "content": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "textdomain": "autoblogger",
+  "editorScript": "file:./index.js"
+}
+

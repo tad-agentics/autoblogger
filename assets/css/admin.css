@@ -1,0 +1,62 @@
+/* AutoBlogger Admin Styles */
+
+.autoblogger-admin-page {
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.autoblogger-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.autoblogger-notice {
+    padding: 12px;
+    margin: 16px 0;
+    border-left: 4px solid;
+    background: #fff;
+}
+
+.autoblogger-notice.success {
+    border-color: #46b450;
+    background: #ecf7ed;
+}
+
+.autoblogger-notice.error {
+    border-color: #dc3232;
+    background: #f9e9e9;
+}
+
+.autoblogger-notice.warning {
+    border-color: #ffb900;
+    background: #fff8e5;
+}
+
+.autoblogger-button {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #2271b1;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.autoblogger-button:hover {
+    background: #135e96;
+    color: #fff;
+}
+
+.autoblogger-button.secondary {
+    background: #f0f0f1;
+    color: #2c3338;
+}
+
+.autoblogger-button.secondary:hover {
+    background: #dcdcde;
+}
+

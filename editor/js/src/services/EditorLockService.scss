@@ -1,0 +1,127 @@
+/**
+ * Editor Lock Indicator Styles
+ * Visual feedback when editor is locked during AI generation
+ */
+
+.autoblogger-lock-indicator {
+    position: fixed;
+    top: 60px; // Below WordPress admin bar
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999999;
+    background: #f0ad4e; // Warning yellow
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    animation: slideDown 0.3s ease-out;
+    font-size: 14px;
+    font-weight: 500;
+
+    .autoblogger-lock-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .dashicons {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .autoblogger-lock-text {
+            flex: 1;
+        }
+
+        .autoblogger-lock-spinner {
+            .spinner {
+                float: none;
+                margin: 0;
+                background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="%23fff" d="M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z" opacity=".3"/><path fill="%23fff" d="M10 3a7 7 0 0 1 7 7h2a9 9 0 0 0-9-9v2z"/></svg>');
+            }
+        }
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+// Locked editor state
+.autoblogger-editor-locked {
+    // Dim the editor content
+    .block-editor-writing-flow {
+        opacity: 0.6;
+        pointer-events: none;
+        user-select: none;
+    }
+
+    // Disable save button
+    .editor-post-publish-button,
+    .editor-post-save-draft,
+    .editor-post-switch-to-draft {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: not-allowed;
+    }
+
+    // Show overlay on editor
+    .block-editor-editor-skeleton__content::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.3);
+        z-index: 1;
+        pointer-events: none;
+    }
+}
+
+// Lock notice styling
+.components-notice.autoblogger-lock-notice {
+    border-left-color: #f0ad4e;
+    
+    .components-notice__content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        &::before {
+            content: '\f160'; // Lock icon
+            font-family: dashicons;
+            font-size: 20px;
+        }
+    }
+}
+
+// Responsive
+@media (max-width: 782px) {
+    .autoblogger-lock-indicator {
+        top: 46px; // Adjust for mobile admin bar
+        left: 10px;
+        right: 10px;
+        transform: none;
+        font-size: 13px;
+        padding: 10px 16px;
+
+        .autoblogger-lock-content {
+            gap: 8px;
+
+            .dashicons {
+                font-size: 18px;
+                width: 18px;
+                height: 18px;
+            }
+        }
+    }
+}
+

@@ -1,0 +1,14 @@
+Expand and enhance the following text while maintaining its core message:
+
+ORIGINAL TEXT:
+{{text}}
+
+REQUIREMENTS:
+- Expand to approximately {{target_length}} words
+- Add relevant details and examples
+- Maintain writing style: {{persona}}
+- Keep the same tone and perspective
+- Use Vietnamese
+
+Output only the expanded text:
+

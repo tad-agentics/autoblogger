@@ -1,0 +1,46 @@
+# Vietnamese translation for AutoBlogger
+msgid ""
+msgstr ""
+"Project-Id-Version: AutoBlogger 1.0.0\n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "AutoBlogger"
+msgstr "AutoBlogger"
+
+msgid "Settings"
+msgstr "Cài đặt"
+
+msgid "Knowledge Base"
+msgstr "Cơ sở tri thức"
+
+msgid "Usage & Costs"
+msgstr "Sử dụng & Chi phí"
+
+msgid "Disclaimer"
+msgstr "Tuyên bố miễn trừ"
+
+msgid "Expert Note"
+msgstr "Ghi chú chuyên gia"
+
+msgid "Generate Draft"
+msgstr "Tạo bản nháp"
+
+msgid "Generate Outline"
+msgstr "Tạo dàn ý"
+
+msgid "Optimize"
+msgstr "Tối ưu hóa"
+
+msgid "Expand"
+msgstr "Mở rộng"
+
+msgid "This information is for reference purposes only."
+msgstr "Thông tin này chỉ mang tính chất tham khảo."
+
+msgid "For health/financial matters, please consult qualified professionals."
+msgstr "Đối với các vấn đề về sức khỏe/tài chính, vui lòng tham khảo chuyên gia."
+

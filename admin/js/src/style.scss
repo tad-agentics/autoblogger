@@ -1,0 +1,49 @@
+.autoblogger-admin {
+    padding: 20px;
+    max-width: 1200px;
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    .autoblogger-card {
+        background: #fff;
+        border: 1px solid #ccd0d4;
+        border-radius: 4px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .autoblogger-form-field {
+        margin-bottom: 20px;
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #8c8f94;
+            border-radius: 4px;
+        }
+    }
+
+    .autoblogger-button-primary {
+        background: #2271b1;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+            background: #135e96;
+        }
+    }
+}
+

@@ -1,0 +1,20 @@
+TASK: Optimize the following content to fix SEO issues
+
+CURRENT CONTENT:
+{{content}}
+
+FOCUS KEYWORD: {{keyword}}
+
+SEO ISSUES DETECTED:
+{{seo_issues}}
+
+OPTIMIZATION REQUIREMENTS:
+1. Address each issue listed above
+2. Maintain the original meaning and flow
+3. Keep the writing style: {{persona}}
+4. Do NOT add new sections, only improve existing content
+5. Ensure keyword appears naturally (avoid keyword stuffing)
+6. Improve readability where possible
+
+Output only the optimized content:
+
