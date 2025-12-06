@@ -4,7 +4,7 @@ Tags: ai, content-generation, seo, rankmath, gutenberg, gemini, claude
 Requires at least: 6.0
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,17 @@ The plugin is free, but you'll need to pay for Anthropic API usage based on your
 
 == Changelog ==
 
+= 1.0.2 =
+* Added Global System Prompt feature for consistent AI behavior
+* System prompt applies to all content generation requests
+* Claude integration uses native `system` parameter
+* Gemini integration uses `systemInstruction` parameter
+* Added comprehensive default system prompt for Vietnamese astrology content
+* Fixed prompt templates not loading in settings UI
+* Fixed Import JSON infinite loading issue in Knowledge Base
+* Added helpful tooltips to prompt template sections
+* Improved UI with system prompt textarea in Content Settings
+
 = 1.0.1 =
 * Added Google Gemini 2.5 Flash (latest model)
 * Added Google Gemini 2.0 Flash (experimental, free)
@@ -73,6 +84,9 @@ The plugin is free, but you'll need to pay for Anthropic API usage based on your
 * E-E-A-T compliance features
 
 == Upgrade Notice ==
+
+= 1.0.2 =
+Important update! Global System Prompt feature allows you to define AI behavior across all content generation. Includes multiple UI fixes.
 
 = 1.0.1 =
 Major update with latest AI models including Gemini 2.5 Flash and Claude 3.5 Haiku!
