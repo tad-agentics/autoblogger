@@ -232,6 +232,10 @@ class AutoBlogger_Activator {
         
         // Default expert name
         add_option('autoblogger_expert_name', 'Expert');
+        
+        // Default language (independent from WordPress language)
+        // Options: 'auto' (follow WordPress), 'en_US', 'vi_VN'
+        add_option('autoblogger_language', 'auto');
     }
 }
 

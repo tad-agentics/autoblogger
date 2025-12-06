@@ -152,7 +152,8 @@ class AutoBlogger_Settings {
             'expert_name' => get_option('autoblogger_expert_name', 'Expert'),
             'system_prompt' => $this->get_system_prompt(),
             'personas' => $this->get_personas(),
-            'negative_keywords' => $this->get_negative_keywords()
+            'negative_keywords' => $this->get_negative_keywords(),
+            'language' => get_option('autoblogger_language', 'auto')
         ];
     }
     
@@ -220,6 +221,11 @@ class AutoBlogger_Settings {
         if (isset($settings['negative_keywords'])) {
             $this->save_negative_keywords($settings['negative_keywords']);
             $updated[] = 'negative_keywords';
+        }
+        
+        if (isset($settings['language'])) {
+            update_option('autoblogger_language', sanitize_text_field($settings['language']), true);
+            $updated[] = 'language';
         }
         
         AutoBlogger_Logger::info('Settings updated', ['fields' => $updated]);
@@ -319,6 +325,31 @@ class AutoBlogger_Settings {
     public function save_negative_keywords($keywords) {
         // Can be large array - autoload=false
         return update_option('autoblogger_negative_keywords', wp_json_encode($keywords), false);
+    }
+    
+    /**
+     * Get plugin language setting
+     *
+     * @return string Language code ('auto', 'en_US', 'vi_VN')
+     */
+    public function get_language() {
+        return get_option('autoblogger_language', 'auto');
+    }
+    
+    /**
+     * Get the effective locale for AutoBlogger
+     * Returns the plugin's language setting, or WordPress locale if set to 'auto'
+     *
+     * @return string Locale code
+     */
+    public function get_effective_locale() {
+        $language = $this->get_language();
+        
+        if ($language === 'auto') {
+            return get_locale();
+        }
+        
+        return $language;
     }
     
     /**

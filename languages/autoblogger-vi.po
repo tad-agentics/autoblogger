@@ -240,6 +240,27 @@ msgstr "Ngân sách hàng ngày"
 msgid "Maximum daily spend in USD"
 msgstr "Chi tiêu tối đa hàng ngày (USD)"
 
+msgid "Plugin Language"
+msgstr "Ngôn ngữ Plugin"
+
+msgid "Choose the language for AutoBlogger interface.\\n\\n\"Auto\" follows WordPress language settings.\\n\\nChoose \"Vietnamese\" or \"English\" to override WordPress language for this plugin only."
+msgstr "Chọn ngôn ngữ cho giao diện AutoBlogger.\\n\\n\"Tự động\" sẽ theo cài đặt ngôn ngữ của WordPress.\\n\\nChọn \"Tiếng Việt\" hoặc \"English\" để ghi đè ngôn ngữ WordPress chỉ cho plugin này."
+
+msgid "Auto (Follow WordPress)"
+msgstr "Tự động (Theo WordPress)"
+
+msgid "Vietnamese (Tiếng Việt)"
+msgstr "Tiếng Việt"
+
+msgid "English"
+msgstr "English"
+
+msgid "Set language for AutoBlogger independent of WordPress language"
+msgstr "Đặt ngôn ngữ cho AutoBlogger độc lập với ngôn ngữ WordPress"
+
+msgid "Language will change after saving settings. The page will reload automatically."
+msgstr "Ngôn ngữ sẽ thay đổi sau khi lưu cài đặt. Trang sẽ tự động tải lại."
+
 msgid "Save Settings"
 msgstr "Lưu cài đặt"
 
@@ -396,4 +417,26 @@ msgstr "Không thể đọc tệp"
 
 msgid "Knowledge base exported!"
 msgstr "Đã xuất cơ sở tri thức!"
+
+# Language Settings
+msgid "Plugin Language"
+msgstr "Ngôn ngữ Plugin"
+
+msgid "Choose the language for AutoBlogger interface.\n\n\"Auto\" follows WordPress language settings.\n\nChoose \"Vietnamese\" or \"English\" to override WordPress language for this plugin only."
+msgstr "Chọn ngôn ngữ cho giao diện AutoBlogger.\n\n\"Tự động\" sẽ theo cài đặt ngôn ngữ của WordPress.\n\nChọn \"Tiếng Việt\" hoặc \"English\" để ghi đè ngôn ngữ WordPress chỉ cho plugin này."
+
+msgid "Language will change after saving settings. The page will reload automatically."
+msgstr "Ngôn ngữ sẽ thay đổi sau khi lưu cài đặt. Trang sẽ tự động tải lại."
+
+msgid "Auto (Follow WordPress)"
+msgstr "Tự động (Theo WordPress)"
+
+msgid "Vietnamese (Tiếng Việt)"
+msgstr "Tiếng Việt"
+
+msgid "English"
+msgstr "English"
+
+msgid "Set language for AutoBlogger independent of WordPress language"
+msgstr "Đặt ngôn ngữ cho AutoBlogger độc lập với ngôn ngữ WordPress"
 

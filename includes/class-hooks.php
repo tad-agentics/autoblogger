@@ -29,6 +29,10 @@ class AutoBlogger_Hooks {
         // Initialization (lightweight, always needed)
         add_action('plugins_loaded', [$this, 'load_textdomain']);
         
+        // Custom locale filter for AutoBlogger (independent from WordPress language)
+        add_filter('locale', [$this, 'override_locale']);
+        add_filter('plugin_locale', [$this, 'override_plugin_locale'], 10, 2);
+        
         // OPTIMIZATION: Only register blocks on admin or when needed
         // Blocks are only used in editor, not on frontend
         if (is_admin() || wp_doing_ajax() || defined('REST_REQUEST')) {
@@ -270,6 +274,75 @@ class AutoBlogger_Hooks {
             return $this->post_interceptor->force_pending_review($data, $postarr);
         }
         return $data;
+    }
+    
+    /**
+     * Override locale for AutoBlogger only
+     * This allows AutoBlogger to have its own language independent of WordPress
+     *
+     * @param string $locale Current locale
+     * @return string Modified locale
+     */
+    public function override_locale($locale) {
+        // Only override in AutoBlogger admin pages
+        if (!$this->is_autoblogger_page()) {
+            return $locale;
+        }
+        
+        $settings = new AutoBlogger_Settings();
+        $custom_locale = $settings->get_effective_locale();
+        
+        return $custom_locale;
+    }
+    
+    /**
+     * Override plugin locale specifically for AutoBlogger text domain
+     *
+     * @param string $locale Current locale
+     * @param string $domain Text domain
+     * @return string Modified locale
+     */
+    public function override_plugin_locale($locale, $domain) {
+        // Only override for autoblogger text domain
+        if ($domain !== 'autoblogger') {
+            return $locale;
+        }
+        
+        $settings = new AutoBlogger_Settings();
+        return $settings->get_effective_locale();
+    }
+    
+    /**
+     * Check if current page is an AutoBlogger page
+     *
+     * @return bool True if AutoBlogger page
+     */
+    private function is_autoblogger_page() {
+        // Check admin pages
+        if (is_admin()) {
+            $screen = get_current_screen();
+            if ($screen && strpos($screen->id, 'autoblogger') !== false) {
+                return true;
+            }
+            
+            // Check AJAX requests
+            if (wp_doing_ajax()) {
+                $action = $_REQUEST['action'] ?? '';
+                if (strpos($action, 'autoblogger') !== false) {
+                    return true;
+                }
+            }
+        }
+        
+        // Check REST API requests
+        if (defined('REST_REQUEST') && REST_REQUEST) {
+            $request_uri = $_SERVER['REQUEST_URI'] ?? '';
+            if (strpos($request_uri, '/autoblogger/') !== false) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }
 

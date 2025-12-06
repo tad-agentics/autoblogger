@@ -73,12 +73,24 @@ class AutoBlogger_Gutenberg {
             $asset['version']
         );
         
+        // Set up JavaScript translations
+        wp_set_script_translations(
+            'autoblogger-editor',
+            'autoblogger',
+            AUTOBLOGGER_PATH . 'languages'
+        );
+        
+        // Get custom locale for AutoBlogger
+        $settings = new AutoBlogger_Settings();
+        $custom_locale = $settings->get_effective_locale();
+        
         // Localize script
         wp_localize_script('autoblogger-editor', 'autobloggerEditor', [
             'apiUrl' => rest_url('autoblogger/v1'),
             'nonce' => wp_create_nonce('wp_rest'),
             'postId' => get_the_ID(),
             'assetsUrl' => AUTOBLOGGER_URL . 'assets/',
+            'locale' => $custom_locale,
             'config' => [
                 'maxIterations' => AutoBlogger_Config::get('opt_max_iterations'),
                 'scoreThreshold' => AutoBlogger_Config::get('opt_score_threshold'),

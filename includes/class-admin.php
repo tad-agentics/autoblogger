@@ -108,12 +108,24 @@ class AutoBlogger_Admin {
                 $asset['version']
             );
             
+            // Set up JavaScript translations
+            wp_set_script_translations(
+                'autoblogger-admin',
+                'autoblogger',
+                AUTOBLOGGER_PATH . 'languages'
+            );
+            
+            // Get custom locale for AutoBlogger
+            $settings = new AutoBlogger_Settings();
+            $custom_locale = $settings->get_effective_locale();
+            
             // Localize script
             wp_localize_script('autoblogger-admin', 'autobloggerAdmin', [
                 'apiUrl' => rest_url('autoblogger/v1'),
                 'nonce' => wp_create_nonce('wp_rest'),
                 'currentPage' => $_GET['page'] ?? 'autoblogger',
-                'assetsUrl' => AUTOBLOGGER_URL . 'assets/'
+                'assetsUrl' => AUTOBLOGGER_URL . 'assets/',
+                'locale' => $custom_locale
             ]);
         }
     }

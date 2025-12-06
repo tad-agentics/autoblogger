@@ -1,0 +1,419 @@
+{
+  "translation-revision-date": "2024-12-06 12:00+0000",
+  "generator": "AutoBlogger Translation Generator",
+  "domain": "autoblogger",
+  "locale_data": {
+    "autoblogger": {
+      "": {
+        "domain": "autoblogger",
+        "lang": "vi",
+        "plural-forms": "nplurals=1; plural=0;"
+      },
+      "AutoBlogger": [
+        "AutoBlogger"
+      ],
+      "AutoBlogger AI": [
+        "AutoBlogger AI"
+      ],
+      "Settings": [
+        "Cài đặt"
+      ],
+      "Knowledge Base": [
+        "Cơ sở tri thức"
+      ],
+      "Usage & Costs": [
+        "Sử dụng & Chi phí"
+      ],
+      "Disclaimer": [
+        "Tuyên bố miễn trừ"
+      ],
+      "Expert Note": [
+        "Ghi chú chuyên gia"
+      ],
+      "Generate Draft": [
+        "Tạo bản nháp"
+      ],
+      "Generate Outline": [
+        "Tạo dàn ý"
+      ],
+      "Optimize": [
+        "Tối ưu hóa"
+      ],
+      "Expand": [
+        "Mở rộng"
+      ],
+      "Main Keyword": [
+        "Từ khóa chính"
+      ],
+      "Writing Tone": [
+        "Giọng văn"
+      ],
+      "Academic": [
+        "Học thuật"
+      ],
+      "Casual": [
+        "Thân mật"
+      ],
+      "Professional": [
+        "Chuyên nghiệp"
+      ],
+      "Friendly": [
+        "Thân thiện"
+      ],
+      "Human Story (Optional)": [
+        "Câu chuyện cá nhân (Tùy chọn)"
+      ],
+      "Add a personal experience or story...": [
+        "Thêm trải nghiệm hoặc câu chuyện cá nhân..."
+      ],
+      "This helps with E-E-A-T compliance": [
+        "Điều này giúp tuân thủ E-E-A-T"
+      ],
+      "Custom Outline (Optional)": [
+        "Dàn ý tùy chỉnh (Tùy chọn)"
+      ],
+      "Leave empty to auto-generate": [
+        "Để trống để tự động tạo"
+      ],
+      "Estimated Cost:": [
+        "Chi phí ước tính:"
+      ],
+      "Actions": [
+        "Hành động"
+      ],
+      "Write Section": [
+        "Viết phần"
+      ],
+      "Expand Selected Text": [
+        "Mở rộng văn bản đã chọn"
+      ],
+      "SEO Doctor": [
+        "Bác sĩ SEO"
+      ],
+      "Automatically optimize your content for better SEO scores.": [
+        "Tự động tối ưu hóa nội dung để đạt điểm SEO tốt hơn."
+      ],
+      "Fix SEO Errors": [
+        "Sửa lỗi SEO"
+      ],
+      "Works with RankMath. Max 2 iterations.": [
+        "Hoạt động với RankMath. Tối đa 2 lần lặp."
+      ],
+      "Version History": [
+        "Lịch sử phiên bản"
+      ],
+      "Loading...": [
+        "Đang tải..."
+      ],
+      "No version history yet. Versions are saved automatically when AI modifies content.": [
+        "Chưa có lịch sử phiên bản. Các phiên bản được lưu tự động khi AI chỉnh sửa nội dung."
+      ],
+      "Edit": [
+        "Sửa"
+      ],
+      "Restore": [
+        "Khôi phục"
+      ],
+      "Restore this version? Current content will be saved first.": [
+        "Khôi phục phiên bản này? Nội dung hiện tại sẽ được lưu trước."
+      ],
+      "Failed to restore version": [
+        "Không thể khôi phục phiên bản"
+      ],
+      "Help": [
+        "Trợ giúp"
+      ],
+      "Quick Guide:": [
+        "Hướng dẫn nhanh:"
+      ],
+      "Enter your main keyword": [
+        "Nhập từ khóa chính"
+      ],
+      "Choose writing tone": [
+        "Chọn giọng văn"
+      ],
+      "Click \\\"Generate Draft\\": [
+        "Nhấp \\\"Tạo bản nháp\\"
+      ],
+      "Review and edit the content": [
+        "Xem xét và chỉnh sửa nội dung"
+      ],
+      "Use \\\"Fix SEO Errors\\\" if needed": [
+        "Sử dụng \\\"Sửa lỗi SEO\\\" nếu cần"
+      ],
+      "Configure Settings": [
+        "Cấu hình cài đặt"
+      ],
+      "Please enter a keyword": [
+        "Vui lòng nhập từ khóa"
+      ],
+      "Draft generated successfully!": [
+        "Tạo bản nháp thành công!"
+      ],
+      "Cost": [
+        "Chi phí"
+      ],
+      "Generation failed": [
+        "Tạo nội dung thất bại"
+      ],
+      "Outline generated!": [
+        "Tạo dàn ý thành công!"
+      ],
+      "Outline generation failed": [
+        "Tạo dàn ý thất bại"
+      ],
+      "No content to optimize": [
+        "Không có nội dung để tối ưu"
+      ],
+      "Content optimized!": [
+        "Tối ưu nội dung thành công!"
+      ],
+      "iterations": [
+        "lần lặp"
+      ],
+      "Optimization failed": [
+        "Tối ưu hóa thất bại"
+      ],
+      "Enter section title/heading:": [
+        "Nhập tiêu đề phần:"
+      ],
+      "Section added!": [
+        "Đã thêm phần!"
+      ],
+      "Section generation failed": [
+        "Tạo phần thất bại"
+      ],
+      "Please select text to expand": [
+        "Vui lòng chọn văn bản để mở rộng"
+      ],
+      "Text expanded!": [
+        "Mở rộng văn bản thành công!"
+      ],
+      "Text expansion failed": [
+        "Mở rộng văn bản thất bại"
+      ],
+      "Generating...": [
+        "Đang tạo..."
+      ],
+      "Optimizing...": [
+        "Đang tối ưu..."
+      ],
+      "Topic Input": [
+        "Nhập chủ đề"
+      ],
+      "e.g., Sao Phá Quân": [
+        "ví dụ: Sao Phá Quân"
+      ],
+      "Enter the main topic or keyword for your article": [
+        "Nhập chủ đề hoặc từ khóa chính cho bài viết của bạn"
+      ],
+      "This information is for reference purposes only.": [
+        "Thông tin này chỉ mang tính chất tham khảo."
+      ],
+      "For health/financial matters, please consult qualified professionals.": [
+        "Đối với các vấn đề về sức khỏe/tài chính, vui lòng tham khảo chuyên gia."
+      ],
+      "API Settings": [
+        "Cài đặt API"
+      ],
+      "Content Settings": [
+        "Cài đặt Nội dung"
+      ],
+      "Prompt Templates": [
+        "Mẫu Prompt"
+      ],
+      "API Provider": [
+        "Nhà cung cấp API"
+      ],
+      "API Key": [
+        "Khóa API"
+      ],
+      "Enter your API key": [
+        "Nhập khóa API của bạn"
+      ],
+      "API Model": [
+        "Mô hình AI"
+      ],
+      "Daily Budget": [
+        "Ngân sách hàng ngày"
+      ],
+      "Maximum daily spend in USD": [
+        "Chi tiêu tối đa hàng ngày (USD)"
+      ],
+      "Plugin Language": [
+        "Ngôn ngữ Plugin"
+      ],
+      "Choose the language for AutoBlogger interface.\\\\n\\\\n\\\"Auto\\\" follows WordPress language settings.\\\\n\\\\nChoose \\\"Vietnamese\\\" or \\\"English\\\" to override WordPress language for this plugin only.": [
+        "Chọn ngôn ngữ cho giao diện AutoBlogger.\\\\n\\\\n\\\"Tự động\\\" sẽ theo cài đặt ngôn ngữ của WordPress.\\\\n\\\\nChọn \\\"Tiếng Việt\\\" hoặc \\\"English\\\" để ghi đè ngôn ngữ WordPress chỉ cho plugin này."
+      ],
+      "Auto (Follow WordPress)": [
+        "Tự động (Theo WordPress)"
+      ],
+      "Vietnamese (Tiếng Việt)": [
+        "Tiếng Việt"
+      ],
+      "English": [
+        "English"
+      ],
+      "Set language for AutoBlogger independent of WordPress language": [
+        "Đặt ngôn ngữ cho AutoBlogger độc lập với ngôn ngữ WordPress"
+      ],
+      "Language will change after saving settings. The page will reload automatically.": [
+        "Ngôn ngữ sẽ thay đổi sau khi lưu cài đặt. Trang sẽ tự động tải lại."
+      ],
+      "Save Settings": [
+        "Lưu cài đặt"
+      ],
+      "Saving...": [
+        "Đang lưu..."
+      ],
+      "Settings saved successfully!": [
+        "Cài đặt đã được lưu thành công!"
+      ],
+      "Failed to load settings": [
+        "Không thể tải cài đặt"
+      ],
+      "Failed to save settings": [
+        "Không thể lưu cài đặt"
+      ],
+      "Global System Prompt": [
+        "Prompt Hệ thống Toàn cục"
+      ],
+      "This system prompt defines the AI's role and behavior for ALL content generation. It sets global rules, tone, and safety guidelines that apply to every request.": [
+        "Prompt hệ thống này định nghĩa vai trò và hành vi của AI cho TẤT CẢ các nội dung được tạo. Nó thiết lập các quy tắc toàn cục, giọng điệu và hướng dẫn an toàn áp dụng cho mọi yêu cầu."
+      ],
+      "Disclaimer Text": [
+        "Văn bản Miễn trừ Trách nhiệm"
+      ],
+      "This disclaimer will be automatically added to AI-generated content": [
+        "Văn bản miễn trừ này sẽ được tự động thêm vào nội dung do AI tạo"
+      ],
+      "Writing Personas": [
+        "Phong cách Viết"
+      ],
+      "Persona name (e.g., Academic)": [
+        "Tên phong cách (ví dụ: Học thuật)"
+      ],
+      "Description/instructions for this writing style": [
+        "Mô tả/hướng dẫn cho phong cách viết này"
+      ],
+      "Add Persona": [
+        "Thêm Phong cách"
+      ],
+      "Remove": [
+        "Xóa"
+      ],
+      "Negative Keywords": [
+        "Từ khóa Cấm"
+      ],
+      "Add keywords to block (one per line)": [
+        "Thêm từ khóa cần chặn (mỗi dòng một từ)"
+      ],
+      "Content containing these keywords will be rejected": [
+        "Nội dung chứa các từ khóa này sẽ bị từ chối"
+      ],
+      "Customize the AI prompts used for content generation. Use placeholders like {{keyword}}, {{knowledge_context}}, {{user_story}}.": [
+        "Tùy chỉnh các prompt AI được sử dụng để tạo nội dung. Sử dụng các biến như {{keyword}}, {{knowledge_context}}, {{user_story}}."
+      ],
+      "Enter prompt template for generating article outlines": [
+        "Nhập mẫu prompt để tạo dàn ý bài viết"
+      ],
+      "Enter prompt template for generating full article drafts": [
+        "Nhập mẫu prompt để tạo bản nháp bài viết đầy đủ"
+      ],
+      "Enter prompt template for generating individual sections": [
+        "Nhập mẫu prompt để tạo các phần riêng lẻ"
+      ],
+      "Enter prompt template for optimizing content": [
+        "Nhập mẫu prompt để tối ưu hóa nội dung"
+      ],
+      "Enter prompt template for expanding selected text": [
+        "Nhập mẫu prompt để mở rộng văn bản đã chọn"
+      ],
+      "Save Prompts": [
+        "Lưu Prompt"
+      ],
+      "Prompts saved successfully!": [
+        "Prompt đã được lưu thành công!"
+      ],
+      "Failed to save prompts": [
+        "Không thể lưu prompt"
+      ],
+      "Loading knowledge base...": [
+        "Đang tải cơ sở tri thức..."
+      ],
+      "Add New Entry": [
+        "Thêm mục mới"
+      ],
+      "Import JSON": [
+        "Nhập JSON"
+      ],
+      "Export JSON": [
+        "Xuất JSON"
+      ],
+      "Keyword": [
+        "Từ khóa"
+      ],
+      "Content": [
+        "Nội dung"
+      ],
+      "Metadata (JSON)": [
+        "Siêu dữ liệu (JSON)"
+      ],
+      "Save Entry": [
+        "Lưu mục"
+      ],
+      "Cancel": [
+        "Hủy"
+      ],
+      "Delete": [
+        "Xóa"
+      ],
+      "Are you sure you want to delete this entry?": [
+        "Bạn có chắc chắn muốn xóa mục này không?"
+      ],
+      "Entry created successfully!": [
+        "Đã tạo mục thành công!"
+      ],
+      "Entry updated successfully!": [
+        "Đã cập nhật mục thành công!"
+      ],
+      "Entry deleted successfully!": [
+        "Đã xóa mục thành công!"
+      ],
+      "Failed to save entry. Check JSON format.": [
+        "Không thể lưu mục. Kiểm tra định dạng JSON."
+      ],
+      "Failed to delete entry": [
+        "Không thể xóa mục"
+      ],
+      "Invalid JSON format": [
+        "Định dạng JSON không hợp lệ"
+      ],
+      "Importing...": [
+        "Đang nhập..."
+      ],
+      "Import complete!": [
+        "Nhập hoàn tất!"
+      ],
+      "success": [
+        "thành công"
+      ],
+      "failed": [
+        "thất bại"
+      ],
+      "Failed to parse JSON file": [
+        "Không thể phân tích tệp JSON"
+      ],
+      "Failed to read file": [
+        "Không thể đọc tệp"
+      ],
+      "Knowledge base exported!": [
+        "Đã xuất cơ sở tri thức!"
+      ],
+      "Choose the language for AutoBlogger interface.\\n\\n\\\"Auto\\\" follows WordPress language settings.\\n\\nChoose \\\"Vietnamese\\\" or \\\"English\\\" to override WordPress language for this plugin only.": [
+        "Chọn ngôn ngữ cho giao diện AutoBlogger.\\n\\n\\\"Tự động\\\" sẽ theo cài đặt ngôn ngữ của WordPress.\\n\\nChọn \\\"Tiếng Việt\\\" hoặc \\\"English\\\" để ghi đè ngôn ngữ WordPress chỉ cho plugin này."
+      ]
+    }
+  }
+}

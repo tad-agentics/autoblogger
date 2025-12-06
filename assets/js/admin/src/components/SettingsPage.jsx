@@ -17,7 +17,8 @@ const SettingsPage = () => {
         disclaimer_text: 'This information is for reference purposes only. For health/financial matters, please consult qualified professionals.',
         system_prompt: '',
         personas: [],
-        negative_keywords: []
+        negative_keywords: [],
+        language: 'auto'
     });
     
     const [prompts, setPrompts] = useState({
@@ -78,6 +79,13 @@ const SettingsPage = () => {
         setSaving(true);
         setMessage(null);
 
+        // Track if language changed to reload page after save
+        const initialSettings = await apiFetch({
+            path: '/autoblogger/v1/settings',
+            method: 'GET'
+        });
+        const languageChanged = initialSettings.data?.language !== settings.language;
+
         try {
             const response = await apiFetch({
                 path: '/autoblogger/v1/settings',
@@ -87,6 +95,13 @@ const SettingsPage = () => {
 
             if (response.success) {
                 setMessage({ type: 'success', text: __('Settings saved successfully!', 'autoblogger') });
+                
+                // Reload page if language changed to apply new language
+                if (languageChanged) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                }
             } else {
                 setMessage({ type: 'error', text: response.message || __('Failed to save settings', 'autoblogger') });
             }
@@ -267,6 +282,41 @@ const SettingsPage = () => {
                                         />
                                         <p className="description">
                                             {__('Maximum amount to spend per day on AI API calls', 'autoblogger')}
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">
+                                        <label htmlFor="language">{__('Plugin Language', 'autoblogger')}</label>
+                                        <span 
+                                            className="dashicons dashicons-info" 
+                                            style={{ cursor: 'pointer', marginLeft: '5px', color: '#2271b1' }}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                alert(__('Choose the language for AutoBlogger interface.\n\n"Auto" follows WordPress language settings.\n\nChoose "Vietnamese" or "English" to override WordPress language for this plugin only.', 'autoblogger'));
+                                            }}
+                                        ></span>
+                                    </th>
+                                    <td>
+                                        <select 
+                                            id="language"
+                                            value={settings.language}
+                                            onChange={(e) => {
+                                                handleInputChange('language', e.target.value);
+                                                // Show message that page will reload after save
+                                                setMessage({ 
+                                                    type: 'info', 
+                                                    text: __('Language will change after saving settings. The page will reload automatically.', 'autoblogger') 
+                                                });
+                                            }}
+                                        >
+                                            <option value="auto">{__('Auto (Follow WordPress)', 'autoblogger')}</option>
+                                            <option value="vi_VN">{__('Vietnamese (Tiếng Việt)', 'autoblogger')}</option>
+                                            <option value="en_US">{__('English', 'autoblogger')}</option>
+                                        </select>
+                                        <p className="description">
+                                            {__('Set language for AutoBlogger independent of WordPress language', 'autoblogger')}
                                         </p>
                                     </td>
                                 </tr>
