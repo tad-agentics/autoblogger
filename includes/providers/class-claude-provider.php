@@ -168,6 +168,7 @@ class AutoBlogger_Claude_Provider implements AutoBlogger_AI_Provider_Interface {
     public function get_available_models() {
         return [
             'claude-3-5-sonnet-20241022' => 'Claude 3.5 Sonnet (Latest)',
+            'claude-3-5-haiku-20241022' => 'Claude 3.5 Haiku (Latest)',
             'claude-3-opus-20240229' => 'Claude 3 Opus',
             'claude-3-sonnet-20240229' => 'Claude 3 Sonnet',
             'claude-3-haiku-20240307' => 'Claude 3 Haiku'
@@ -201,10 +202,20 @@ class AutoBlogger_Claude_Provider implements AutoBlogger_AI_Provider_Interface {
      * Get pricing
      */
     public function get_pricing() {
-        // Claude 3.5 Sonnet pricing (as of 2024)
+        // Pricing varies by model (as of December 2024)
+        $model_pricing = [
+            'claude-3-5-sonnet-20241022' => ['input' => 3.00, 'output' => 15.00],
+            'claude-3-5-haiku-20241022' => ['input' => 1.00, 'output' => 5.00],
+            'claude-3-opus-20240229' => ['input' => 15.00, 'output' => 75.00],
+            'claude-3-sonnet-20240229' => ['input' => 3.00, 'output' => 15.00],
+            'claude-3-haiku-20240307' => ['input' => 0.25, 'output' => 1.25]
+        ];
+        
+        $pricing = $model_pricing[$this->model] ?? $model_pricing['claude-3-5-sonnet-20241022'];
+        
         return [
-            'input_per_million' => 3.00,
-            'output_per_million' => 15.00,
+            'input_per_million' => $pricing['input'],
+            'output_per_million' => $pricing['output'],
             'currency' => 'USD'
         ];
     }
@@ -213,7 +224,8 @@ class AutoBlogger_Claude_Provider implements AutoBlogger_AI_Provider_Interface {
      * Get max context tokens
      */
     public function get_max_context_tokens() {
-        return 200000; // Claude 3.5 Sonnet supports 200k context
+        // All Claude 3 and 3.5 models support 200k context window
+        return 200000;
     }
     
     /**

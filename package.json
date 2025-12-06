@@ -16,6 +16,7 @@
   "author": "Agentics",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
+    "@babel/plugin-bugfix-firefox-class-in-computed-class-key": "^7.28.5",
     "@wordpress/scripts": "^26.0.0"
   },
   "dependencies": {
@@ -31,4 +32,3 @@
     "@wordpress/plugins": "^6.0.0"
   }
 }
-

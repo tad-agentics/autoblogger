@@ -230,16 +230,21 @@ const SettingsPage = () => {
                                         >
                                             {settings.api_provider === 'claude' ? (
                                                 <>
-                                                    <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet (Recommended)</option>
+                                                    <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet (Latest)</option>
+                                                    <option value="claude-3-5-haiku-20241022">Claude 3.5 Haiku (Latest - Fast)</option>
                                                     <option value="claude-3-opus-20240229">Claude 3 Opus</option>
                                                     <option value="claude-3-sonnet-20240229">Claude 3 Sonnet</option>
                                                     <option value="claude-3-haiku-20240307">Claude 3 Haiku</option>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <option value="gemini-1.5-pro">Gemini 1.5 Pro (Recommended)</option>
-                                                    <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
-                                                    <option value="gemini-pro">Gemini Pro</option>
+                                                    <option value="gemini-2.5-flash-latest">Gemini 2.5 Flash (Latest - Recommended)</option>
+                                                    <option value="gemini-2.0-flash-exp">Gemini 2.0 Flash (Experimental - Free)</option>
+                                                    <option value="gemini-1.5-pro-002">Gemini 1.5 Pro</option>
+                                                    <option value="gemini-1.5-flash-002">Gemini 1.5 Flash</option>
+                                                    <option value="gemini-1.5-pro">Gemini 1.5 Pro (Legacy)</option>
+                                                    <option value="gemini-1.5-flash">Gemini 1.5 Flash (Legacy)</option>
+                                                    <option value="gemini-pro">Gemini Pro (Legacy)</option>
                                                 </>
                                             )}
                                         </select>

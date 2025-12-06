@@ -20,7 +20,7 @@ class AutoBlogger_Gemini_Provider implements AutoBlogger_AI_Provider_Interface {
     public function __construct($settings) {
         $this->settings = $settings;
         $this->api_key = $settings->get_api_key();
-        $this->model = get_option('autoblogger_api_model', 'gemini-pro');
+        $this->model = get_option('autoblogger_api_model', 'gemini-2.5-flash-latest');
     }
     
     /**
@@ -160,10 +160,13 @@ class AutoBlogger_Gemini_Provider implements AutoBlogger_AI_Provider_Interface {
      */
     public function get_available_models() {
         return [
-            'gemini-pro' => 'Gemini Pro',
-            'gemini-pro-vision' => 'Gemini Pro Vision',
-            'gemini-1.5-pro' => 'Gemini 1.5 Pro',
-            'gemini-1.5-flash' => 'Gemini 1.5 Flash'
+            'gemini-2.5-flash-latest' => 'Gemini 2.5 Flash (Latest)',
+            'gemini-2.0-flash-exp' => 'Gemini 2.0 Flash (Experimental)',
+            'gemini-1.5-pro-002' => 'Gemini 1.5 Pro',
+            'gemini-1.5-flash-002' => 'Gemini 1.5 Flash',
+            'gemini-1.5-pro' => 'Gemini 1.5 Pro (Legacy)',
+            'gemini-1.5-flash' => 'Gemini 1.5 Flash (Legacy)',
+            'gemini-pro' => 'Gemini Pro (Legacy)'
         ];
     }
     
@@ -194,10 +197,23 @@ class AutoBlogger_Gemini_Provider implements AutoBlogger_AI_Provider_Interface {
      * Get pricing
      */
     public function get_pricing() {
-        // Gemini Pro pricing (free tier available)
+        // Pricing varies by model
+        // Note: Gemini 2.0 and 2.5 Flash experimental models are currently free
+        $model_pricing = [
+            'gemini-2.5-flash-latest' => ['input' => 0.075, 'output' => 0.30], // Same as 1.5 Flash
+            'gemini-2.0-flash-exp' => ['input' => 0.00, 'output' => 0.00], // Free during experimental
+            'gemini-1.5-pro-002' => ['input' => 1.25, 'output' => 5.00],
+            'gemini-1.5-flash-002' => ['input' => 0.075, 'output' => 0.30],
+            'gemini-1.5-pro' => ['input' => 1.25, 'output' => 5.00],
+            'gemini-1.5-flash' => ['input' => 0.075, 'output' => 0.30],
+            'gemini-pro' => ['input' => 0.50, 'output' => 1.50]
+        ];
+        
+        $pricing = $model_pricing[$this->model] ?? $model_pricing['gemini-2.5-flash-latest'];
+        
         return [
-            'input_per_million' => 0.50,  // Much cheaper than Claude
-            'output_per_million' => 1.50,
+            'input_per_million' => $pricing['input'],
+            'output_per_million' => $pricing['output'],
             'currency' => 'USD'
         ];
     }
@@ -206,7 +222,18 @@ class AutoBlogger_Gemini_Provider implements AutoBlogger_AI_Provider_Interface {
      * Get max context tokens
      */
     public function get_max_context_tokens() {
-        return 32000; // Gemini Pro supports 32k context
+        // Context windows vary by model
+        $context_windows = [
+            'gemini-2.5-flash-latest' => 1000000, // 1M context
+            'gemini-2.0-flash-exp' => 1000000,
+            'gemini-1.5-pro-002' => 2000000,
+            'gemini-1.5-flash-002' => 1000000,
+            'gemini-1.5-pro' => 2000000,
+            'gemini-1.5-flash' => 1000000,
+            'gemini-pro' => 32000
+        ];
+        
+        return $context_windows[$this->model] ?? 1000000;
     }
     
     /**

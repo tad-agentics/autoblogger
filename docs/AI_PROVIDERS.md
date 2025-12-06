@@ -43,17 +43,23 @@ AutoBlogger_AI_Provider_Interface (Contract)
 
 ```php
 Provider: Anthropic Claude
-Model: claude-3-5-sonnet-20241022
-Context: 200,000 tokens
-Pricing: $3/M input, $15/M output
+Default Model: claude-3-5-sonnet-20241022
+Available Models:
+  - claude-3-5-sonnet-20241022 ($3/M input, $15/M output - Latest)
+  - claude-3-5-haiku-20241022 ($1/M input, $5/M output - Fast & Cheap)
+  - claude-3-opus-20240229 ($15/M input, $75/M output - Most powerful)
+  - claude-3-sonnet-20240229 ($3/M input, $15/M output)
+  - claude-3-haiku-20240307 ($0.25/M input, $1.25/M output)
+Context: 200,000 tokens (all models)
 Key Format: sk-ant-*
 ```
 
 **Features:**
 - ✅ Excellent Vietnamese understanding
-- ✅ 200k context window
+- ✅ 200k context window (all models)
 - ✅ Function calling support
 - ✅ Streaming support
+- ✅ Claude 3.5 Haiku for fast, cost-effective operations
 
 ### 2. Gemini
 
@@ -61,17 +67,26 @@ Key Format: sk-ant-*
 
 ```php
 Provider: Google Gemini
-Model: gemini-pro
-Context: 32,000 tokens
-Pricing: $0.50/M input, $1.50/M output (83% cheaper!)
+Default Model: gemini-2.5-flash-latest
+Available Models:
+  - gemini-2.5-flash-latest ($0.075/M input, $0.30/M output, 1M context) - RECOMMENDED
+  - gemini-2.0-flash-exp (FREE during experimental phase, 1M context)
+  - gemini-1.5-pro-002 ($1.25/M input, $5.00/M output, 2M context)
+  - gemini-1.5-flash-002 ($0.075/M input, $0.30/M output, 1M context)
+  - gemini-1.5-pro (1M context - legacy)
+  - gemini-1.5-flash (1M context - legacy)
+  - gemini-pro (32k context - legacy)
 Key Format: AIza*
 ```
 
 **Features:**
 - ✅ Much cheaper than Claude
 - ✅ Fast response times
-- ✅ Good Vietnamese support
+- ✅ Excellent Vietnamese support
 - ✅ Free tier available
+- ✅ Up to 2M context window
+- ✅ Gemini 2.5 Flash - Latest and most capable
+- ✅ Gemini 2.0 Flash experimental (FREE)
 
 ### 3. OpenAI (Coming Soon)
 
@@ -276,36 +291,54 @@ public static function get_available_providers() {
 
 ## 📊 Provider Comparison
 
-| Feature | Claude | Gemini | OpenAI |
-|---------|--------|--------|--------|
-| **Vietnamese Quality** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **Cost (Input)** | $3/M | $0.50/M | $10/M |
-| **Cost (Output)** | $15/M | $1.50/M | $30/M |
-| **Context Window** | 200k | 32k | 128k |
-| **Speed** | Fast | Very Fast | Fast |
-| **Function Calling** | ✅ | ✅ | ✅ |
-| **Streaming** | ✅ | ✅ | ✅ |
-| **Free Tier** | ❌ | ✅ | ❌ |
+| Feature | Claude 3.5 Sonnet | Claude 3.5 Haiku | Gemini 2.5 Flash | Gemini 2.0 Flash | Gemini 1.5 Flash | OpenAI |
+|---------|--------|--------|--------|--------|--------|--------|
+| **Vietnamese Quality** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **Cost (Input)** | $3/M | $1/M | $0.075/M | FREE* | $0.075/M | $10/M |
+| **Cost (Output)** | $15/M | $5/M | $0.30/M | FREE* | $0.30/M | $30/M |
+| **Context Window** | 200k | 200k | 1M | 1M | 1M | 128k |
+| **Speed** | Fast | Very Fast | Very Fast | Very Fast | Very Fast | Fast |
+| **Function Calling** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Streaming** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Free Tier** | ❌ | ❌ | ✅ | ✅* | ✅ | ❌ |
+| **Status** | Stable | Stable | **Latest** | Experimental | Stable | Stable |
+
+*Gemini 2.0 Flash is free during experimental phase (December 2024)
 
 ## 💰 Cost Comparison Example
 
 **Generating a 2000-word article:**
 
 ```
-Claude:
+Claude 3.5 Sonnet:
 - Input: 1000 tokens × $3/M = $0.003
 - Output: 3000 tokens × $15/M = $0.045
 - Total: $0.048 per article
 
-Gemini:
-- Input: 1000 tokens × $0.50/M = $0.0005
-- Output: 3000 tokens × $1.50/M = $0.0045
-- Total: $0.005 per article (90% cheaper!)
+Claude 3.5 Haiku:
+- Input: 1000 tokens × $1/M = $0.001
+- Output: 3000 tokens × $5/M = $0.015
+- Total: $0.016 per article (67% cheaper than Sonnet!)
+
+Gemini 2.5 Flash (Latest - RECOMMENDED):
+- Input: 1000 tokens × $0.075/M = $0.000075
+- Output: 3000 tokens × $0.30/M = $0.0009
+- Total: $0.000975 per article (98% cheaper than Claude!)
+
+Gemini 2.0 Flash (Experimental):
+- Input: 1000 tokens × $0/M = $0
+- Output: 3000 tokens × $0/M = $0
+- Total: $0.00 per article (100% FREE during experimental phase!)
+
+Gemini 1.5 Flash:
+- Input: 1000 tokens × $0.075/M = $0.000075
+- Output: 3000 tokens × $0.30/M = $0.0009
+- Total: $0.000975 per article (98% cheaper than Claude!)
 
 OpenAI GPT-4:
 - Input: 1000 tokens × $10/M = $0.010
 - Output: 3000 tokens × $30/M = $0.090
-- Total: $0.100 per article (2x more expensive)
+- Total: $0.100 per article
 ```
 
 ## 🔧 Advanced Usage
