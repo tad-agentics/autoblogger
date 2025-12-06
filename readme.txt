@@ -4,7 +4,7 @@ Tags: ai, content-generation, seo, rankmath, gutenberg, gemini, claude
 Requires at least: 6.0
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.0.5
+Stable tag: 1.0.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,25 @@ The plugin is free, but you'll need to pay for Anthropic API usage based on your
 
 == Changelog ==
 
+= 1.0.9 =
+* Added comprehensive console logging for prompts loading and saving
+* Improved debugging visibility for prompts management
+
+= 1.0.8 =
+* Fixed language switcher reload detection (was comparing same values)
+* Added initial language tracking to properly detect changes
+* Improved debugging logs for language change detection
+
+= 1.0.7 =
+* Improved language change detection and page reload
+* Added visual feedback when language is changing
+* Enhanced debug logging for troubleshooting
+
+= 1.0.6 =
+* Fixed API key not persisting (preserved in state after reload)
+* Added visual indicator when API key is configured
+* Improved settings state management
+
 = 1.0.5 =
 * Fixed settings showing default values after page reload
 * Settings now load from server before UI renders
@@ -101,6 +120,12 @@ The plugin is free, but you'll need to pay for Anthropic API usage based on your
 * E-E-A-T compliance features
 
 == Upgrade Notice ==
+
+= 1.0.9 =
+Enhanced debugging - now you can see prompts being loaded and saved in the console!
+
+= 1.0.8 =
+Critical fix for language switcher - now properly detects language changes and reloads page!
 
 = 1.0.3 =
 Critical fix for settings persistence and REST API registration!

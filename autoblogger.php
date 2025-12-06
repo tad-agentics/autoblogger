@@ -3,7 +3,7 @@
  * Plugin Name: AutoBlogger
  * Plugin URI: https://autoblogger.com
  * Description: AI-powered content generation with RankMath SEO optimization and E-E-A-T compliance
- * Version: 1.0.5
+ * Version: 1.0.9
  * Author: Agentics
  * Author URI: https://autoblogger.com
  * License: GPL v2 or later
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define constants
-define('AUTOBLOGGER_VERSION', '1.0.5');
+define('AUTOBLOGGER_VERSION', '1.0.9');
 define('AUTOBLOGGER_PATH', plugin_dir_path(__FILE__));
 define('AUTOBLOGGER_URL', plugin_dir_url(__FILE__));
 define('AUTOBLOGGER_BASENAME', plugin_basename(__FILE__));

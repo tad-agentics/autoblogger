@@ -9,6 +9,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 const SettingsPage = () => {
     const [settings, setSettings] = useState(null); // Start as null, load from server
+    const [initialLanguage, setInitialLanguage] = useState(null); // Track initial language for comparison
     
     const [prompts, setPrompts] = useState({
         'generate-draft': '',
@@ -42,7 +43,16 @@ const SettingsPage = () => {
             
             if (response.success) {
                 console.log('✅ Settings loaded:', response.data);
-                setSettings(response.data);
+                // Preserve current api_key in state if it exists (server returns empty for security)
+                setSettings(prev => ({
+                    ...response.data,
+                    api_key: prev?.api_key || response.data.api_key
+                }));
+                // Store the initial language for comparison later
+                if (!initialLanguage) {
+                    setInitialLanguage(response.data.language);
+                    console.log('📌 Initial language set to:', response.data.language);
+                }
             } else {
                 console.error('❌ Load failed: response.success is false');
             }
@@ -56,16 +66,22 @@ const SettingsPage = () => {
 
     const loadPrompts = async () => {
         try {
+            console.log('📥 Loading prompts...');
             const response = await apiFetch({
                 path: '/autoblogger/v1/prompts',
                 method: 'GET'
             });
             
+            console.log('📥 Prompts load response:', response);
+            
             if (response.success) {
                 setPrompts(response.data);
+                console.log('✅ Prompts loaded:', response.data);
+            } else {
+                console.error('❌ Prompts load failed: response.success is false');
             }
         } catch (error) {
-            console.error('Failed to load prompts:', error);
+            console.error('❌ Failed to load prompts:', error);
         }
     };
 
@@ -74,10 +90,9 @@ const SettingsPage = () => {
         setSaving(true);
         setMessage(null);
 
-        // Store current language to check if changed
-        const currentLanguage = settings.language;
-
         console.log('💾 Saving settings:', settings);
+        console.log('📌 Initial language was:', initialLanguage);
+        console.log('📌 New language is:', settings.language);
 
         try {
             const response = await apiFetch({
@@ -91,24 +106,36 @@ const SettingsPage = () => {
             if (response.success) {
                 setMessage({ type: 'success', text: __('Settings saved successfully!', 'autoblogger') });
                 
-                // Reload page if language changed to apply new language
-                if (settings.language !== currentLanguage) {
-                    console.log('🌐 Language changed, reloading page...');
+                // Compare current language with the initial language loaded from server
+                const languageChanged = settings.language !== initialLanguage;
+                console.log('🔍 Language check:', { 
+                    initial: initialLanguage, 
+                    current: settings.language, 
+                    changed: languageChanged 
+                });
+                
+                if (languageChanged) {
+                    console.log('🌐 Language changed, reloading page in 1 second...');
+                    setMessage({ 
+                        type: 'info', 
+                        text: __('Language changed. Reloading page...', 'autoblogger') 
+                    });
                     setTimeout(() => {
-                        window.location.reload();
+                        console.log('🔄 Executing reload now!');
+                        window.location.reload(true); // Force reload
                     }, 1000);
                 } else {
                     // Reload settings from server to confirm they were saved
                     console.log('🔄 Reloading settings from server...');
                     await loadSettings();
-                    console.log('✅ Settings reloaded:', settings);
+                    console.log('✅ Settings reloaded');
                 }
             } else {
                 console.error('❌ Save failed:', response);
                 setMessage({ type: 'error', text: response.message || __('Failed to save settings', 'autoblogger') });
             }
         } catch (error) {
-            console.error('❌ Failed to save settings:', error);
+            console.error('❌ Failed to load settings:', error);
             console.error('Error details:', error.message, error.code, error.data);
             setMessage({ 
                 type: 'error', 
@@ -132,6 +159,8 @@ const SettingsPage = () => {
         setSavingPrompts(true);
         setMessage(null);
 
+        console.log('📝 Saving prompts:', prompts);
+
         try {
             const response = await apiFetch({
                 path: '/autoblogger/v1/prompts',
@@ -139,13 +168,18 @@ const SettingsPage = () => {
                 data: prompts
             });
 
+            console.log('✅ Prompts save response:', response);
+
             if (response.success) {
                 setMessage({ type: 'success', text: __('Prompts saved successfully!', 'autoblogger') });
+                console.log('✅ Prompts saved successfully!');
             } else {
+                console.error('❌ Prompts save failed:', response);
                 setMessage({ type: 'error', text: response.message || __('Failed to save prompts', 'autoblogger') });
             }
         } catch (error) {
-            console.error('Failed to save prompts:', error);
+            console.error('❌ Failed to save prompts:', error);
+            console.error('Error details:', error.message, error.code, error.data);
             setMessage({ type: 'error', text: __('Failed to save prompts', 'autoblogger') });
         } finally {
             setSavingPrompts(false);
@@ -237,8 +271,11 @@ const SettingsPage = () => {
                                             className="regular-text"
                                             value={settings.api_key}
                                             onChange={(e) => handleInputChange('api_key', e.target.value)}
-                                            placeholder={__('Enter your API key', 'autoblogger')}
-                                            required
+                                            placeholder={
+                                                settings.api_key_configured 
+                                                    ? __('✓ API key configured (enter new key to change)', 'autoblogger')
+                                                    : __('Enter your API key', 'autoblogger')
+                                            }
                                         />
                                         <p className="description">
                                             {settings.api_provider === 'claude' 
