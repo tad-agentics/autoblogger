@@ -212,3 +212,188 @@ msgstr "Thông tin này chỉ mang tính chất tham khảo."
 msgid "For health/financial matters, please consult qualified professionals."
 msgstr "Đối với các vấn đề về sức khỏe/tài chính, vui lòng tham khảo chuyên gia."
 
+# Settings Page
+msgid "API Settings"
+msgstr "Cài đặt API"
+
+msgid "Content Settings"
+msgstr "Cài đặt Nội dung"
+
+msgid "Prompt Templates"
+msgstr "Mẫu Prompt"
+
+msgid "API Provider"
+msgstr "Nhà cung cấp API"
+
+msgid "API Key"
+msgstr "Khóa API"
+
+msgid "Enter your API key"
+msgstr "Nhập khóa API của bạn"
+
+msgid "API Model"
+msgstr "Mô hình AI"
+
+msgid "Daily Budget"
+msgstr "Ngân sách hàng ngày"
+
+msgid "Maximum daily spend in USD"
+msgstr "Chi tiêu tối đa hàng ngày (USD)"
+
+msgid "Save Settings"
+msgstr "Lưu cài đặt"
+
+msgid "Saving..."
+msgstr "Đang lưu..."
+
+msgid "Settings saved successfully!"
+msgstr "Cài đặt đã được lưu thành công!"
+
+msgid "Failed to load settings"
+msgstr "Không thể tải cài đặt"
+
+msgid "Failed to save settings"
+msgstr "Không thể lưu cài đặt"
+
+# Global System Prompt
+msgid "Global System Prompt"
+msgstr "Prompt Hệ thống Toàn cục"
+
+msgid "This system prompt defines the AI's role and behavior for ALL content generation. It sets global rules, tone, and safety guidelines that apply to every request."
+msgstr "Prompt hệ thống này định nghĩa vai trò và hành vi của AI cho TẤT CẢ các nội dung được tạo. Nó thiết lập các quy tắc toàn cục, giọng điệu và hướng dẫn an toàn áp dụng cho mọi yêu cầu."
+
+# Content Settings
+msgid "Disclaimer Text"
+msgstr "Văn bản Miễn trừ Trách nhiệm"
+
+msgid "This disclaimer will be automatically added to AI-generated content"
+msgstr "Văn bản miễn trừ này sẽ được tự động thêm vào nội dung do AI tạo"
+
+msgid "Writing Personas"
+msgstr "Phong cách Viết"
+
+msgid "Persona name (e.g., Academic)"
+msgstr "Tên phong cách (ví dụ: Học thuật)"
+
+msgid "Description/instructions for this writing style"
+msgstr "Mô tả/hướng dẫn cho phong cách viết này"
+
+msgid "Add Persona"
+msgstr "Thêm Phong cách"
+
+msgid "Remove"
+msgstr "Xóa"
+
+msgid "Negative Keywords"
+msgstr "Từ khóa Cấm"
+
+msgid "Add keywords to block (one per line)"
+msgstr "Thêm từ khóa cần chặn (mỗi dòng một từ)"
+
+msgid "Content containing these keywords will be rejected"
+msgstr "Nội dung chứa các từ khóa này sẽ bị từ chối"
+
+# Prompt Templates
+msgid "Customize the AI prompts used for content generation. Use placeholders like {{keyword}}, {{knowledge_context}}, {{user_story}}."
+msgstr "Tùy chỉnh các prompt AI được sử dụng để tạo nội dung. Sử dụng các biến như {{keyword}}, {{knowledge_context}}, {{user_story}}."
+
+msgid "Enter prompt template for generating article outlines"
+msgstr "Nhập mẫu prompt để tạo dàn ý bài viết"
+
+msgid "Enter prompt template for generating full article drafts"
+msgstr "Nhập mẫu prompt để tạo bản nháp bài viết đầy đủ"
+
+msgid "Enter prompt template for generating individual sections"
+msgstr "Nhập mẫu prompt để tạo các phần riêng lẻ"
+
+msgid "Enter prompt template for optimizing content"
+msgstr "Nhập mẫu prompt để tối ưu hóa nội dung"
+
+msgid "Enter prompt template for expanding selected text"
+msgstr "Nhập mẫu prompt để mở rộng văn bản đã chọn"
+
+msgid "Save Prompts"
+msgstr "Lưu Prompt"
+
+msgid "Prompts saved successfully!"
+msgstr "Prompt đã được lưu thành công!"
+
+msgid "Failed to save prompts"
+msgstr "Không thể lưu prompt"
+
+# Knowledge Base
+msgid "Loading knowledge base..."
+msgstr "Đang tải cơ sở tri thức..."
+
+msgid "Add New Entry"
+msgstr "Thêm mục mới"
+
+msgid "Import JSON"
+msgstr "Nhập JSON"
+
+msgid "Export JSON"
+msgstr "Xuất JSON"
+
+msgid "Keyword"
+msgstr "Từ khóa"
+
+msgid "Content"
+msgstr "Nội dung"
+
+msgid "Metadata (JSON)"
+msgstr "Siêu dữ liệu (JSON)"
+
+msgid "Save Entry"
+msgstr "Lưu mục"
+
+msgid "Cancel"
+msgstr "Hủy"
+
+msgid "Edit"
+msgstr "Sửa"
+
+msgid "Delete"
+msgstr "Xóa"
+
+msgid "Are you sure you want to delete this entry?"
+msgstr "Bạn có chắc chắn muốn xóa mục này không?"
+
+msgid "Entry created successfully!"
+msgstr "Đã tạo mục thành công!"
+
+msgid "Entry updated successfully!"
+msgstr "Đã cập nhật mục thành công!"
+
+msgid "Entry deleted successfully!"
+msgstr "Đã xóa mục thành công!"
+
+msgid "Failed to save entry. Check JSON format."
+msgstr "Không thể lưu mục. Kiểm tra định dạng JSON."
+
+msgid "Failed to delete entry"
+msgstr "Không thể xóa mục"
+
+msgid "Invalid JSON format"
+msgstr "Định dạng JSON không hợp lệ"
+
+msgid "Importing..."
+msgstr "Đang nhập..."
+
+msgid "Import complete!"
+msgstr "Nhập hoàn tất!"
+
+msgid "success"
+msgstr "thành công"
+
+msgid "failed"
+msgstr "thất bại"
+
+msgid "Failed to parse JSON file"
+msgstr "Không thể phân tích tệp JSON"
+
+msgid "Failed to read file"
+msgstr "Không thể đọc tệp"
+
+msgid "Knowledge base exported!"
+msgstr "Đã xuất cơ sở tri thức!"
+
