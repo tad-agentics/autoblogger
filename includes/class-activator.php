@@ -18,9 +18,6 @@ class AutoBlogger_Activator {
      * Plugin activation
      */
     public static function activate() {
-        // Set flag to prevent heavy initialization during activation
-        define('AUTOBLOGGER_ACTIVATING', true);
-        
         // Check for class name collisions FIRST
         require_once AUTOBLOGGER_PATH . 'includes/class-collision-checker.php';
         
@@ -75,9 +72,6 @@ class AutoBlogger_Activator {
      * Plugin deactivation
      */
     public static function deactivate() {
-        // Set flag to prevent heavy initialization during deactivation
-        define('AUTOBLOGGER_DEACTIVATING', true);
-        
         // Flush rewrite rules
         flush_rewrite_rules();
         

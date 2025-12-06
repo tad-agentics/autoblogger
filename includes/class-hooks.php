@@ -252,11 +252,6 @@ class AutoBlogger_Hooks {
      * OPTIMIZATION: REST API class only initialized when actually registering routes
      */
     public function register_rest_routes() {
-        // Don't initialize during plugin activation/deactivation
-        if (defined('AUTOBLOGGER_ACTIVATING') || defined('AUTOBLOGGER_DEACTIVATING')) {
-            return;
-        }
-        
         // Lazy load REST API class only when needed
         if (!$this->rest_api && class_exists('AutoBlogger_REST_API')) {
             $this->rest_api = new AutoBlogger_REST_API();
