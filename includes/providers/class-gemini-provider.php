@@ -33,6 +33,7 @@ class AutoBlogger_Gemini_Provider implements AutoBlogger_AI_Provider_Interface {
         
         $max_tokens = $options['max_tokens'] ?? 4000;
         $temperature = $options['temperature'] ?? 1.0;
+        $system_prompt = $options['system_prompt'] ?? '';
         
         $endpoint = $this->api_endpoint . $this->model . ':generateContent?key=' . $this->api_key;
         
@@ -49,6 +50,15 @@ class AutoBlogger_Gemini_Provider implements AutoBlogger_AI_Provider_Interface {
                 'temperature' => $temperature
             ]
         ];
+        
+        // Add system instruction if provided (Gemini-specific parameter)
+        if (!empty($system_prompt)) {
+            $body['systemInstruction'] = [
+                'parts' => [
+                    ['text' => $system_prompt]
+                ]
+            ];
+        }
         
         $response = wp_remote_post($endpoint, [
             'headers' => [

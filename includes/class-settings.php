@@ -150,6 +150,7 @@ class AutoBlogger_Settings {
             'score_threshold' => (int) get_option('autoblogger_score_threshold', AutoBlogger_Config::OPT_SCORE_THRESHOLD),
             'disclaimer_text' => get_option('autoblogger_disclaimer_text', AutoBlogger_Config::SAFETY_DEFAULT_DISCLAIMER),
             'expert_name' => get_option('autoblogger_expert_name', 'Expert'),
+            'system_prompt' => $this->get_system_prompt(),
             'personas' => $this->get_personas(),
             'negative_keywords' => $this->get_negative_keywords()
         ];
@@ -205,6 +206,12 @@ class AutoBlogger_Settings {
             $updated[] = 'expert_name';
         }
         
+        if (isset($settings['system_prompt'])) {
+            // Can be large text - autoload=false
+            update_option('autoblogger_system_prompt', wp_kses_post($settings['system_prompt']), false);
+            $updated[] = 'system_prompt';
+        }
+        
         if (isset($settings['personas'])) {
             $this->save_personas($settings['personas']);
             $updated[] = 'personas';
@@ -218,6 +225,29 @@ class AutoBlogger_Settings {
         AutoBlogger_Logger::info('Settings updated', ['fields' => $updated]);
         
         return true;
+    }
+    
+    /**
+     * Get system prompt
+     *
+     * @return string System prompt
+     */
+    public function get_system_prompt() {
+        $default = "You are an expert Vietnamese content writer specializing in astrology and spiritual topics (Tử Vi, Phong Thủy, Lá Số Tử Vi).\n\n" .
+            "Your responsibilities:\n" .
+            "1. Create accurate, well-researched content based on traditional Vietnamese astrology texts\n" .
+            "2. Write in clear, engaging Vietnamese that's accessible to modern readers\n" .
+            "3. Always cite sources when referencing specific astrological principles\n" .
+            "4. Maintain a balanced, professional tone - avoid absolute predictions or medical/financial advice\n" .
+            "5. Include practical examples and real-world applications\n" .
+            "6. Follow SEO best practices while keeping content natural and reader-friendly\n\n" .
+            "Safety guidelines:\n" .
+            "- Never make definitive health or financial predictions\n" .
+            "- Always include appropriate disclaimers for interpretive content\n" .
+            "- Respect cultural sensitivity around spiritual beliefs\n" .
+            "- Avoid sensationalism or fear-based language";
+        
+        return get_option('autoblogger_system_prompt', $default);
     }
     
     /**

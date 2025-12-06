@@ -15,6 +15,7 @@ const SettingsPage = () => {
         daily_budget: 5.00,
         max_optimization_iterations: 2,
         disclaimer_text: 'This information is for reference purposes only. For health/financial matters, please consult qualified professionals.',
+        system_prompt: '',
         personas: [],
         negative_keywords: []
     });
@@ -431,6 +432,24 @@ const SettingsPage = () => {
                         
                         <table className="form-table">
                             <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        <label htmlFor="system_prompt">{__('Global System Prompt', 'autoblogger')}</label>
+                                    </th>
+                                    <td>
+                                        <textarea 
+                                            id="system_prompt"
+                                            rows="10"
+                                            className="large-text code"
+                                            value={settings.system_prompt}
+                                            onChange={(e) => handleInputChange('system_prompt', e.target.value)}
+                                        />
+                                        <p className="description">
+                                            {__('This system prompt defines the AI\'s role and behavior for ALL content generation. It sets global rules, tone, and safety guidelines that apply to every request.', 'autoblogger')}
+                                        </p>
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <th scope="row">
                                         <label htmlFor="disclaimer_text">{__('Disclaimer Text', 'autoblogger')}</label>

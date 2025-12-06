@@ -84,10 +84,14 @@ class AutoBlogger_AI_Service {
         $max_retries = AutoBlogger_Config::get('api_max_retries');
         $retry_delay_base = AutoBlogger_Config::get('api_retry_delay_base');
         
+        // Get system prompt from settings
+        $system_prompt = $this->settings->get_system_prompt();
+        
         for ($attempt = 0; $attempt <= $max_retries; $attempt++) {
             try {
                 $result = $this->provider->generate($prompt, [
-                    'max_tokens' => $max_tokens
+                    'max_tokens' => $max_tokens,
+                    'system_prompt' => $system_prompt
                 ]);
                 
                 $content = $result['content'];
