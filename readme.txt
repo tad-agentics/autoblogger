@@ -1,10 +1,10 @@
 === AutoBlogger ===
 Contributors: yourname
-Tags: ai, content-generation, seo, rankmath, gutenberg
+Tags: ai, content-generation, seo, rankmath, gutenberg, gemini, claude
 Requires at least: 6.0
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,15 @@ The plugin is free, but you'll need to pay for Anthropic API usage based on your
 
 == Changelog ==
 
+= 1.0.1 =
+* Added Google Gemini 2.5 Flash (latest model)
+* Added Google Gemini 2.0 Flash (experimental, free)
+* Added Claude 3.5 Haiku (faster, more affordable)
+* Updated all model pricing
+* Improved model selection UI
+* Fixed Babel build issues
+* Default model changed to Gemini 2.5 Flash
+
 = 1.0.0 =
 * Initial release
 * AI content generation
@@ -64,6 +73,9 @@ The plugin is free, but you'll need to pay for Anthropic API usage based on your
 * E-E-A-T compliance features
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Major update with latest AI models including Gemini 2.5 Flash and Claude 3.5 Haiku!
 
 = 1.0.0 =
 Initial release of AutoBlogger.
