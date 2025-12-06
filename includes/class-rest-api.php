@@ -946,9 +946,18 @@ class AutoBlogger_REST_API {
      */
     public function get_prompts($request) {
         $prompt_manager = new AutoBlogger_Prompt_Manager();
-        $prompts = $prompt_manager->get_all_templates();
+        $templates = $prompt_manager->get_all_templates();
         
-        return new WP_REST_Response($prompts, 200);
+        // Extract just the content for each prompt (either custom or default)
+        $prompts = [];
+        foreach ($templates as $name => $template) {
+            $prompts[$name] = $prompt_manager->get_template($name);
+        }
+        
+        return new WP_REST_Response([
+            'success' => true,
+            'data' => $prompts
+        ], 200);
     }
     
     /**

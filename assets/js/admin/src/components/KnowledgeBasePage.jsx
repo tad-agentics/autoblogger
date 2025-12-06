@@ -127,6 +127,9 @@ const KnowledgeBasePage = () => {
         const file = e.target.files[0];
         if (!file) return;
 
+        // Show loading message
+        setMessage({ type: 'info', text: __('Importing...', 'autoblogger') });
+
         const reader = new FileReader();
         reader.onload = async (event) => {
             try {
@@ -134,6 +137,7 @@ const KnowledgeBasePage = () => {
                 
                 if (!Array.isArray(importedData)) {
                     setMessage({ type: 'error', text: __('Invalid JSON format', 'autoblogger') });
+                    e.target.value = ''; // Reset file input
                     return;
                 }
 
@@ -158,7 +162,7 @@ const KnowledgeBasePage = () => {
                     }
                 }
 
-                loadEntries();
+                await loadEntries();
                 setMessage({ 
                     type: 'success', 
                     text: __('Import complete!', 'autoblogger') + ` ${successCount} ${__('success', 'autoblogger')}, ${errorCount} ${__('failed', 'autoblogger')}`
@@ -166,12 +170,18 @@ const KnowledgeBasePage = () => {
             } catch (error) {
                 console.error('Import failed:', error);
                 setMessage({ type: 'error', text: __('Failed to parse JSON file', 'autoblogger') });
+            } finally {
+                // Always reset file input after import completes
+                e.target.value = '';
             }
         };
-        reader.readAsText(file);
         
-        // Reset file input
-        e.target.value = '';
+        reader.onerror = () => {
+            setMessage({ type: 'error', text: __('Failed to read file', 'autoblogger') });
+            e.target.value = ''; // Reset file input on error
+        };
+        
+        reader.readAsText(file);
     };
 
     if (loading) {

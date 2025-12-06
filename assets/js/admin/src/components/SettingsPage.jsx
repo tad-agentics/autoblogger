@@ -302,18 +302,18 @@ const SettingsPage = () => {
                         
                         <div className="autoblogger-prompts">
                             <div className="prompt-section">
-                                <h4>{__('Generate Draft', 'autoblogger')}</h4>
-                                <textarea 
-                                    rows="8"
-                                    className="large-text code"
-                                    value={prompts['generate-draft']}
-                                    onChange={(e) => handlePromptChange('generate-draft', e.target.value)}
-                                    placeholder={__('Enter prompt template for generating full article drafts', 'autoblogger')}
-                                />
-                            </div>
-
-                            <div className="prompt-section">
-                                <h4>{__('Generate Outline', 'autoblogger')}</h4>
+                                <h4>
+                                    {__('Generate Outline', 'autoblogger')}
+                                    <span 
+                                        className="dashicons dashicons-info" 
+                                        style={{ fontSize: '18px', marginLeft: '8px', color: '#2271b1', cursor: 'help' }}
+                                        title=""
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            alert('Đây là Prompt để: Chỉ đạo AI lên cấu trúc khung sườn cho toàn bộ bài viết.\n\nHướng dẫn:\n\n• Hãy yêu cầu AI sắp xếp các thẻ H2, H3 theo trình tự logic (ví dụ: Định nghĩa → Ý nghĩa → Vận hạn → Kết luận).\n\n• Nhắc AI phân bổ từ khóa {{keyword}} vào các tiêu đề để đảm bảo điểm SEO ngay từ đầu.\n\n• Lưu ý: Prompt này chỉ sinh ra tiêu đề, không sinh ra nội dung chi tiết.');
+                                        }}
+                                    ></span>
+                                </h4>
                                 <textarea 
                                     rows="6"
                                     className="large-text code"
@@ -324,7 +324,40 @@ const SettingsPage = () => {
                             </div>
 
                             <div className="prompt-section">
-                                <h4>{__('Generate Section', 'autoblogger')}</h4>
+                                <h4>
+                                    {__('Generate Draft', 'autoblogger')}
+                                    <span 
+                                        className="dashicons dashicons-info" 
+                                        style={{ fontSize: '18px', marginLeft: '8px', color: '#2271b1', cursor: 'help' }}
+                                        title=""
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            alert('Đây là Prompt để: Viết một bài viết hoàn chỉnh (hoặc phần Tóm tắt/Intro) trong một lần chạy.\n\nHướng dẫn:\n\n• Thường dùng cho các bài tin tức ngắn hoặc đoạn mở đầu. Không nên dùng cho bài luận giải chi tiết (vì dễ bị giới hạn độ dài).\n\n• Cần định nghĩa rõ Giọng văn (Tone & Voice) tại đây (ví dụ: Uyên bác, Cổ điển hay Hiện đại, Dễ hiểu).\n\n• Đừng quên yêu cầu AI thêm câu miễn trừ trách nhiệm (Disclaimer) ở cuối.');
+                                        }}
+                                    ></span>
+                                </h4>
+                                <textarea 
+                                    rows="8"
+                                    className="large-text code"
+                                    value={prompts['generate-draft']}
+                                    onChange={(e) => handlePromptChange('generate-draft', e.target.value)}
+                                    placeholder={__('Enter prompt template for generating full article drafts', 'autoblogger')}
+                                />
+                            </div>
+
+                            <div className="prompt-section">
+                                <h4>
+                                    {__('Generate Section', 'autoblogger')}
+                                    <span 
+                                        className="dashicons dashicons-info" 
+                                        style={{ fontSize: '18px', marginLeft: '8px', color: '#2271b1', cursor: 'help' }}
+                                        title=""
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            alert('Đây là Prompt để: Viết nội dung chi tiết cho từng thẻ H2/H3 cụ thể khi bạn click nút "Viết phần này" trong Editor.\n\nHướng dẫn:\n\n• Đây là nơi quyết định chất lượng bài viết. Hãy yêu cầu AI đóng vai "Chuyên gia" để phân tích sâu.\n\n• Bắt buộc phải giữ placeholder {{knowledge_context}} để AI nhận dữ liệu từ sách Tử Vi.\n\n• Nên yêu cầu AI chia nhỏ đoạn văn để dễ đọc trên điện thoại.');
+                                        }}
+                                    ></span>
+                                </h4>
                                 <textarea 
                                     rows="6"
                                     className="large-text code"
@@ -335,7 +368,18 @@ const SettingsPage = () => {
                             </div>
 
                             <div className="prompt-section">
-                                <h4>{__('Optimize Content (SEO)', 'autoblogger')}</h4>
+                                <h4>
+                                    {__('Optimize Content (SEO)', 'autoblogger')}
+                                    <span 
+                                        className="dashicons dashicons-info" 
+                                        style={{ fontSize: '18px', marginLeft: '8px', color: '#2271b1', cursor: 'help' }}
+                                        title=""
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            alert('Đây là Prompt để: Sửa lại một đoạn văn bản cụ thể dựa trên các lỗi mà Rank Math phát hiện (ví dụ: thiếu từ khóa, câu quá dài).\n\nHướng dẫn:\n\n• Hãy chỉ đạo AI chèn từ khóa {{keyword}} một cách tự nhiên, tránh nhồi nhét (keyword stuffing) gây phản cảm.\n\n• Yêu cầu AI giữ nguyên ý nghĩa gốc của đoạn văn, chỉ thay đổi cách diễn đạt cho chuẩn SEO.');
+                                        }}
+                                    ></span>
+                                </h4>
                                 <textarea 
                                     rows="6"
                                     className="large-text code"
@@ -346,7 +390,18 @@ const SettingsPage = () => {
                             </div>
 
                             <div className="prompt-section">
-                                <h4>{__('Expand Text', 'autoblogger')}</h4>
+                                <h4>
+                                    {__('Expand Text', 'autoblogger')}
+                                    <span 
+                                        className="dashicons dashicons-info" 
+                                        style={{ fontSize: '18px', marginLeft: '8px', color: '#2271b1', cursor: 'help' }}
+                                        title=""
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            alert('Đây là Prompt để: Viết thêm một đoạn giải thích sâu hoặc đưa ra ví dụ minh họa khi bạn bôi đen một câu phú/thuật ngữ khó hiểu.\n\nHướng dẫn:\n\n• Dùng để giải nghĩa các từ Hán Việt hoặc câu phú Nôm (ví dụ: "Phá Quân Thìn Tuất vi ngã ngạnh").\n\n• Hãy yêu cầu AI liên hệ thực tế (Ví dụ: Ứng dụng trong kinh doanh, tình cảm thời nay là gì?) để tăng tính hữu ích (Helpful Content).');
+                                        }}
+                                    ></span>
+                                </h4>
                                 <textarea 
                                     rows="6"
                                     className="large-text code"
