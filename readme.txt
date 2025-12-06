@@ -4,7 +4,7 @@ Tags: ai, content-generation, seo, rankmath, gutenberg, gemini, claude
 Requires at least: 6.0
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.0.9
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,36 @@ Yes! AutoBlogger integrates seamlessly with RankMath for real-time SEO optimizat
 The plugin is free, but you'll need to pay for Anthropic API usage based on your token consumption.
 
 == Changelog ==
+
+= 1.1.5 =
+* Fixed Knowledge Base entries not displaying after creation
+* Updated get_knowledge REST API to return correct response format
+* Now returns {success: true, data: [...]} instead of raw data
+
+= 1.1.4 =
+* Added comprehensive debug logging to track translation file loading
+* Logs exact file path WordPress is looking for
+* Will help diagnose why Vietnamese translations aren't loading
+
+= 1.1.3 =
+* Use determine_locale filter instead of locale for script translations
+* Added debug logging to track translation loading
+* Fixed locale filter application timing
+
+= 1.1.2 =
+* Fixed JSON translation files with correct build hashes
+* Added script to auto-generate JSON files matching current builds
+* Vietnamese translations now load correctly
+
+= 1.1.1 =
+* Fixed JavaScript translations not respecting custom locale
+* Temporarily switch locale when loading script translations
+* Locale filter now runs with priority 1 (before text domain loading)
+
+= 1.1.0 =
+* Fixed Vietnamese translations not loading in UI
+* Force reload text domain when locale is overridden
+* Now UI will properly display Vietnamese when language is set to vi_VN
 
 = 1.0.9 =
 * Added comprehensive console logging for prompts loading and saving
@@ -120,6 +150,18 @@ The plugin is free, but you'll need to pay for Anthropic API usage based on your
 * E-E-A-T compliance features
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+Using determine_locale filter - the correct way to override locale for JS translations!
+
+= 1.1.2 =
+FINALLY FIXED! Vietnamese translations now work! The JSON files had wrong hashes.
+
+= 1.1.1 =
+Critical fix for Vietnamese translations in JavaScript/React UI!
+
+= 1.1.0 =
+Important fix! Vietnamese translations now work correctly in the UI!
 
 = 1.0.9 =
 Enhanced debugging - now you can see prompts being loaded and saved in the console!

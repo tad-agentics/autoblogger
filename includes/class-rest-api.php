@@ -808,7 +808,14 @@ class AutoBlogger_REST_API {
         
         $result = $this->database->get_all_knowledge($page, $per_page);
         
-        return new WP_REST_Response($result, 200);
+        return new WP_REST_Response([
+            'success' => true,
+            'data' => $result['items'],
+            'total' => $result['total'],
+            'page' => $result['page'],
+            'per_page' => $result['per_page'],
+            'total_pages' => $result['total_pages']
+        ], 200);
     }
     
     /**

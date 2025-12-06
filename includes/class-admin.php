@@ -108,16 +108,33 @@ class AutoBlogger_Admin {
                 $asset['version']
             );
             
+            // Get custom locale for AutoBlogger
+            $settings = new AutoBlogger_Settings();
+            $custom_locale = $settings->get_effective_locale();
+            
             // Set up JavaScript translations
-            wp_set_script_translations(
+            // WordPress will look for: autoblogger-{locale}-{hash}.json
+            // We need to ensure it uses our custom locale, not the site locale
+            $translation_file = sprintf(
+                '%slanguages/autoblogger-%s-%s.json',
+                AUTOBLOGGER_PATH,
+                $custom_locale,
+                substr($asset['version'], 0, 32)
+            );
+            
+            error_log('AutoBlogger: Looking for translation file: ' . $translation_file);
+            error_log('AutoBlogger: File exists: ' . (file_exists($translation_file) ? 'YES' : 'NO'));
+            error_log('AutoBlogger: Custom locale: ' . $custom_locale);
+            error_log('AutoBlogger: Site locale: ' . get_locale());
+            
+            // Try setting script translations
+            $result = wp_set_script_translations(
                 'autoblogger-admin',
                 'autoblogger',
                 AUTOBLOGGER_PATH . 'languages'
             );
             
-            // Get custom locale for AutoBlogger
-            $settings = new AutoBlogger_Settings();
-            $custom_locale = $settings->get_effective_locale();
+            error_log('AutoBlogger: wp_set_script_translations result: ' . ($result ? 'true' : 'false'));
             
             // Localize script
             wp_localize_script('autoblogger-admin', 'autobloggerAdmin', [

@@ -73,16 +73,28 @@ class AutoBlogger_Gutenberg {
             $asset['version']
         );
         
-        // Set up JavaScript translations
-        wp_set_script_translations(
+        // Get custom locale for AutoBlogger
+        $settings = new AutoBlogger_Settings();
+        $custom_locale = $settings->get_effective_locale();
+        
+        // Use determine_locale filter for script translations (WP 5.0+)
+        add_filter('determine_locale', function() use ($custom_locale) {
+            return $custom_locale;
+        });
+        
+        // Set up JavaScript translations with custom locale
+        $result = wp_set_script_translations(
             'autoblogger-editor',
             'autoblogger',
             AUTOBLOGGER_PATH . 'languages'
         );
         
-        // Get custom locale for AutoBlogger
-        $settings = new AutoBlogger_Settings();
-        $custom_locale = $settings->get_effective_locale();
+        // Debug: Log if translations loaded
+        if ($result) {
+            error_log('AutoBlogger: Editor script translations set for locale ' . $custom_locale);
+        } else {
+            error_log('AutoBlogger: Failed to set editor script translations for locale ' . $custom_locale);
+        }
         
         // Localize script
         wp_localize_script('autoblogger-editor', 'autobloggerEditor', [

@@ -26,12 +26,13 @@ class AutoBlogger_Hooks {
      * OPTIMIZED: Only registers hooks needed for current context
      */
     public function register() {
+        // Custom locale filter for AutoBlogger (MUST run BEFORE plugins_loaded)
+        // Priority 1 to ensure it runs before text domain loading
+        add_filter('locale', [$this, 'override_locale'], 1);
+        add_filter('plugin_locale', [$this, 'override_plugin_locale'], 1, 2);
+        
         // Initialization (lightweight, always needed)
         add_action('plugins_loaded', [$this, 'load_textdomain']);
-        
-        // Custom locale filter for AutoBlogger (independent from WordPress language)
-        add_filter('locale', [$this, 'override_locale']);
-        add_filter('plugin_locale', [$this, 'override_plugin_locale'], 10, 2);
         
         // OPTIMIZATION: Only register blocks on admin or when needed
         // Blocks are only used in editor, not on frontend
