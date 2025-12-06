@@ -4,7 +4,7 @@ Tags: ai, content-generation, seo, rankmath, gutenberg, gemini, claude
 Requires at least: 6.0
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,23 @@ The plugin is free, but you'll need to pay for Anthropic API usage based on your
 
 == Changelog ==
 
+= 1.0.5 =
+* Fixed settings showing default values after page reload
+* Settings now load from server before UI renders
+* Improved loading state handling
+
+= 1.0.4 =
+* Added settings reload after successful save
+* Added comprehensive console logging for debugging
+* Fixed settings not reflecting changes after save
+
+= 1.0.3 =
+* Fixed REST API routes not registering automatically
+* Fixed settings not persisting after save (GET endpoint response format)
+* Added lazy-loading for heavy dependencies in REST API
+* Improved REST API initialization error handling
+* Added comprehensive debug logging
+
 = 1.0.2 =
 * Added Global System Prompt feature for consistent AI behavior
 * System prompt applies to all content generation requests
@@ -84,6 +101,9 @@ The plugin is free, but you'll need to pay for Anthropic API usage based on your
 * E-E-A-T compliance features
 
 == Upgrade Notice ==
+
+= 1.0.3 =
+Critical fix for settings persistence and REST API registration!
 
 = 1.0.2 =
 Important update! Global System Prompt feature allows you to define AI behavior across all content generation. Includes multiple UI fixes.

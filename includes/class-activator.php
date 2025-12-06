@@ -209,11 +209,11 @@ class AutoBlogger_Activator {
         $default_personas = [
             [
                 'name' => 'Academic',
-                'prompt' => 'Write in a formal, scholarly tone with proper citations and technical terminology'
+                'description' => 'Write in a formal, scholarly tone with proper citations and technical terminology'
             ],
             [
                 'name' => 'Simple',
-                'prompt' => 'Write in a friendly, conversational tone that\'s easy to understand for general readers'
+                'description' => 'Write in a friendly, conversational tone that\'s easy to understand for general readers'
             ]
         ];
         add_option('autoblogger_personas', wp_json_encode($default_personas));

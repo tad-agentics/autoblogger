@@ -22,13 +22,63 @@ class AutoBlogger_REST_API {
     private $content_filter;
     
     public function __construct() {
-        $this->ai_service = new AutoBlogger_AI_Service();
-        $this->database = new AutoBlogger_Database();
-        $this->rag_engine = new AutoBlogger_RAG_Engine();
-        $this->cost_tracker = new AutoBlogger_Cost_Tracker();
+        // Initialize only the dependencies that are always needed
+        // Others will be lazy-loaded when needed
         $this->settings = new AutoBlogger_Settings();
-        $this->post_interceptor = new AutoBlogger_Post_Interceptor();
-        $this->content_filter = new AutoBlogger_Content_Filter();
+        $this->database = new AutoBlogger_Database();
+        
+        // Lazy-load heavy dependencies only when actually used
+        // This prevents initialization failures from blocking REST API registration
+    }
+    
+    /**
+     * Lazy-load AI Service (only when needed for AI operations)
+     */
+    private function get_ai_service() {
+        if (!$this->ai_service) {
+            $this->ai_service = new AutoBlogger_AI_Service();
+        }
+        return $this->ai_service;
+    }
+    
+    /**
+     * Lazy-load RAG Engine
+     */
+    private function get_rag_engine() {
+        if (!$this->rag_engine) {
+            $this->rag_engine = new AutoBlogger_RAG_Engine();
+        }
+        return $this->rag_engine;
+    }
+    
+    /**
+     * Lazy-load Cost Tracker
+     */
+    private function get_cost_tracker() {
+        if (!$this->cost_tracker) {
+            $this->cost_tracker = new AutoBlogger_Cost_Tracker();
+        }
+        return $this->cost_tracker;
+    }
+    
+    /**
+     * Lazy-load Post Interceptor
+     */
+    private function get_post_interceptor() {
+        if (!$this->post_interceptor) {
+            $this->post_interceptor = new AutoBlogger_Post_Interceptor();
+        }
+        return $this->post_interceptor;
+    }
+    
+    /**
+     * Lazy-load Content Filter
+     */
+    private function get_content_filter() {
+        if (!$this->content_filter) {
+            $this->content_filter = new AutoBlogger_Content_Filter();
+        }
+        return $this->content_filter;
     }
     
     /**
@@ -456,16 +506,16 @@ class AutoBlogger_REST_API {
             $outline = sanitize_textarea_field($request['outline'] ?? '');
             
             // Acquire lock
-            $this->post_interceptor->acquire_lock($post_id, get_current_user_id());
+            $this->get_post_interceptor()->acquire_lock($post_id, get_current_user_id());
             
             // Check budget
-            $this->cost_tracker->check_daily_budget(get_current_user_id(), 0.5);
+            $this->get_cost_tracker()->check_daily_budget(get_current_user_id(), 0.5);
             
             // Fire before generation event
             do_action('autoblogger_before_generate', $post_id, $keyword, $request->get_params());
             
             // Retrieve RAG context
-            $rag_result = $this->rag_engine->retrieve_context($keyword);
+            $rag_result = $this->get_rag_engine()->retrieve_context($keyword);
             
             // Build data for prompt
             $data = [
@@ -479,15 +529,15 @@ class AutoBlogger_REST_API {
             ];
             
             // Generate content
-            $content = $this->ai_service->generate_draft($data);
+            $content = $this->get_ai_service()->generate_draft($data);
             
             // Filter for safety
-            $filter_result = $this->content_filter->filter_content($content, $post_id);
+            $filter_result = $this->get_content_filter()->filter_content($content, $post_id);
             $content = $filter_result['content'];
             
             // Log usage (estimate for now, actual tokens would come from API response)
-            $cost_estimate = $this->cost_tracker->estimate_cost($content);
-            $this->cost_tracker->log_usage(
+            $cost_estimate = $this->get_cost_tracker()->estimate_cost($content);
+            $this->get_cost_tracker()->log_usage(
                 get_current_user_id(),
                 'generate_draft',
                 $cost_estimate['input_tokens'],
@@ -496,17 +546,17 @@ class AutoBlogger_REST_API {
             
             // Save version
             $current_content = get_post_field('post_content', $post_id);
-            $this->post_interceptor->save_version($post_id, $current_content, 'before_generate');
+            $this->get_post_interceptor()->save_version($post_id, $current_content, 'before_generate');
             
             // Mark as AI-generated
-            $this->post_interceptor->mark_as_generated($post_id, [
+            $this->get_post_interceptor()->mark_as_generated($post_id, [
                 'keyword' => $keyword,
                 'persona' => $persona,
                 'generated_at' => current_time('mysql')
             ]);
             
             // Release lock
-            $this->post_interceptor->release_lock($post_id, get_current_user_id());
+            $this->get_post_interceptor()->release_lock($post_id, get_current_user_id());
             
             // Fire after generation event
             do_action('autoblogger_after_generate', $post_id, $content, [
@@ -532,7 +582,7 @@ class AutoBlogger_REST_API {
             
             // Release lock on error
             if (isset($post_id)) {
-                $this->post_interceptor->release_lock($post_id, get_current_user_id());
+                $this->get_post_interceptor()->release_lock($post_id, get_current_user_id());
             }
             
             return new WP_Error('generation_failed', $e->getMessage(), ['status' => 500]);
@@ -551,20 +601,20 @@ class AutoBlogger_REST_API {
             $keyword = sanitize_text_field($request['keyword']);
             
             // Check budget
-            $this->cost_tracker->check_daily_budget(get_current_user_id(), 0.1);
+            $this->get_cost_tracker()->check_daily_budget(get_current_user_id(), 0.1);
             
             // Retrieve context
-            $rag_result = $this->rag_engine->retrieve_context($keyword);
+            $rag_result = $this->get_rag_engine()->retrieve_context($keyword);
             
             // Generate outline
-            $outline = $this->ai_service->generate_outline([
+            $outline = $this->get_ai_service()->generate_outline([
                 'keyword' => $keyword,
                 'knowledge_context' => $rag_result['context']
             ]);
             
             // Log usage
-            $cost_estimate = $this->cost_tracker->estimate_cost($outline, 2000);
-            $this->cost_tracker->log_usage(
+            $cost_estimate = $this->get_cost_tracker()->estimate_cost($outline, 2000);
+            $this->get_cost_tracker()->log_usage(
                 get_current_user_id(),
                 'generate_outline',
                 $cost_estimate['input_tokens'],
@@ -600,10 +650,10 @@ class AutoBlogger_REST_API {
             @ini_set('max_execution_time', 120);
             
             // Check budget
-            $this->cost_tracker->check_daily_budget(get_current_user_id(), 0.2);
+            $this->get_cost_tracker()->check_daily_budget(get_current_user_id(), 0.2);
             
             // Retrieve knowledge (with caching)
-            $rag_result = $this->rag_engine->retrieve_context($keyword, ['limit' => 3]);
+            $rag_result = $this->get_rag_engine()->retrieve_context($keyword, ['limit' => 3]);
             
             // Build prompt data
             $prompt_data = [
@@ -622,11 +672,11 @@ class AutoBlogger_REST_API {
             }
             
             // Generate section
-            $section = $this->ai_service->generate_section($prompt_data);
+            $section = $this->get_ai_service()->generate_section($prompt_data);
             
             // Log usage
-            $cost_estimate = $this->cost_tracker->estimate_cost($section, 1500);
-            $this->cost_tracker->log_usage(
+            $cost_estimate = $this->get_cost_tracker()->estimate_cost($section, 1500);
+            $this->get_cost_tracker()->log_usage(
                 get_current_user_id(),
                 'generate_section',
                 $cost_estimate['input_tokens'],
@@ -670,7 +720,7 @@ class AutoBlogger_REST_API {
             $persona = sanitize_text_field($request['persona'] ?? 'Academic');
             
             // Check budget
-            $this->cost_tracker->check_daily_budget(get_current_user_id(), 0.3);
+            $this->get_cost_tracker()->check_daily_budget(get_current_user_id(), 0.3);
             
             // Format SEO issues
             $issues_text = '';
@@ -679,7 +729,7 @@ class AutoBlogger_REST_API {
             }
             
             // Optimize
-            $optimized = $this->ai_service->optimize_content([
+            $optimized = $this->get_ai_service()->optimize_content([
                 'content' => $content,
                 'keyword' => $keyword,
                 'seo_issues' => $issues_text,
@@ -687,8 +737,8 @@ class AutoBlogger_REST_API {
             ]);
             
             // Log usage
-            $cost_estimate = $this->cost_tracker->estimate_cost($optimized);
-            $this->cost_tracker->log_usage(
+            $cost_estimate = $this->get_cost_tracker()->estimate_cost($optimized);
+            $this->get_cost_tracker()->log_usage(
                 get_current_user_id(),
                 'optimize_content',
                 $cost_estimate['input_tokens'],
@@ -720,18 +770,18 @@ class AutoBlogger_REST_API {
             $persona = sanitize_text_field($request['persona'] ?? 'Academic');
             
             // Check budget
-            $this->cost_tracker->check_daily_budget(get_current_user_id(), 0.2);
+            $this->get_cost_tracker()->check_daily_budget(get_current_user_id(), 0.2);
             
             // Expand
-            $expanded = $this->ai_service->expand_text([
+            $expanded = $this->get_ai_service()->expand_text([
                 'text' => $text,
                 'target_length' => $target_length,
                 'persona' => $persona
             ]);
             
             // Log usage
-            $cost_estimate = $this->cost_tracker->estimate_cost($expanded, 2000);
-            $this->cost_tracker->log_usage(
+            $cost_estimate = $this->get_cost_tracker()->estimate_cost($expanded, 2000);
+            $this->get_cost_tracker()->log_usage(
                 get_current_user_id(),
                 'expand_text',
                 $cost_estimate['input_tokens'],
@@ -844,7 +894,10 @@ class AutoBlogger_REST_API {
      */
     public function get_settings($request) {
         $settings = $this->settings->get_all_settings();
-        return new WP_REST_Response($settings, 200);
+        return new WP_REST_Response([
+            'success' => true,
+            'data' => $settings
+        ], 200);
     }
     
     /**
@@ -869,8 +922,8 @@ class AutoBlogger_REST_API {
         $days = (int) ($request['days'] ?? 30);
         $user_id = get_current_user_id();
         
-        $stats = $this->cost_tracker->get_usage_stats($user_id, $days);
-        $monthly = $this->cost_tracker->get_monthly_summary($user_id);
+        $stats = $this->get_cost_tracker()->get_usage_stats($user_id, $days);
+        $monthly = $this->get_cost_tracker()->get_monthly_summary($user_id);
         
         return new WP_REST_Response([
             'daily_stats' => $stats,
@@ -883,7 +936,7 @@ class AutoBlogger_REST_API {
      */
     public function get_budget_status($request) {
         $user_id = get_current_user_id();
-        $status = $this->cost_tracker->get_budget_status($user_id);
+        $status = $this->get_cost_tracker()->get_budget_status($user_id);
         
         return new WP_REST_Response($status, 200);
     }
@@ -895,7 +948,7 @@ class AutoBlogger_REST_API {
         $prompt = sanitize_textarea_field($request['prompt'] ?? '');
         $max_output = (int) ($request['max_output'] ?? 4000);
         
-        $estimate = $this->cost_tracker->estimate_cost($prompt, $max_output);
+        $estimate = $this->get_cost_tracker()->estimate_cost($prompt, $max_output);
         
         return new WP_REST_Response($estimate, 200);
     }
@@ -905,7 +958,7 @@ class AutoBlogger_REST_API {
      */
     public function get_versions($request) {
         $post_id = (int) $request['id'];
-        $versions = $this->post_interceptor->get_versions($post_id);
+        $versions = $this->get_post_interceptor()->get_versions($post_id);
         
         return new WP_REST_Response($versions, 200);
     }
@@ -917,7 +970,7 @@ class AutoBlogger_REST_API {
         $post_id = (int) $request['id'];
         $version_index = (int) $request['version_index'];
         
-        $result = $this->post_interceptor->restore_version($post_id, $version_index);
+        $result = $this->get_post_interceptor()->restore_version($post_id, $version_index);
         
         if ($result) {
             return new WP_REST_Response(['success' => true], 200);
@@ -932,7 +985,7 @@ class AutoBlogger_REST_API {
     public function approve_post($request) {
         $post_id = (int) $request['id'];
         
-        $result = $this->post_interceptor->approve_post($post_id);
+        $result = $this->get_post_interceptor()->approve_post($post_id);
         
         if ($result) {
             return new WP_REST_Response(['success' => true], 200);

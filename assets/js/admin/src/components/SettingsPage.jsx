@@ -8,18 +8,7 @@ import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 
 const SettingsPage = () => {
-    const [settings, setSettings] = useState({
-        api_key: '',
-        api_provider: 'claude',
-        api_model: 'claude-3-5-sonnet-20241022',
-        daily_budget: 5.00,
-        max_optimization_iterations: 2,
-        disclaimer_text: 'This information is for reference purposes only. For health/financial matters, please consult qualified professionals.',
-        system_prompt: '',
-        personas: [],
-        negative_keywords: [],
-        language: 'auto'
-    });
+    const [settings, setSettings] = useState(null); // Start as null, load from server
     
     const [prompts, setPrompts] = useState({
         'generate-draft': '',
@@ -43,16 +32,22 @@ const SettingsPage = () => {
 
     const loadSettings = async () => {
         try {
+            console.log('📥 Loading settings...');
             const response = await apiFetch({
                 path: '/autoblogger/v1/settings',
                 method: 'GET'
             });
             
+            console.log('📥 Load response:', response);
+            
             if (response.success) {
+                console.log('✅ Settings loaded:', response.data);
                 setSettings(response.data);
+            } else {
+                console.error('❌ Load failed: response.success is false');
             }
         } catch (error) {
-            console.error('Failed to load settings:', error);
+            console.error('❌ Failed to load settings:', error);
             setMessage({ type: 'error', text: __('Failed to load settings', 'autoblogger') });
         } finally {
             setLoading(false);
@@ -79,12 +74,10 @@ const SettingsPage = () => {
         setSaving(true);
         setMessage(null);
 
-        // Track if language changed to reload page after save
-        const initialSettings = await apiFetch({
-            path: '/autoblogger/v1/settings',
-            method: 'GET'
-        });
-        const languageChanged = initialSettings.data?.language !== settings.language;
+        // Store current language to check if changed
+        const currentLanguage = settings.language;
+
+        console.log('💾 Saving settings:', settings);
 
         try {
             const response = await apiFetch({
@@ -93,28 +86,41 @@ const SettingsPage = () => {
                 data: settings
             });
 
+            console.log('✅ Save response:', response);
+
             if (response.success) {
                 setMessage({ type: 'success', text: __('Settings saved successfully!', 'autoblogger') });
                 
                 // Reload page if language changed to apply new language
-                if (languageChanged) {
+                if (settings.language !== currentLanguage) {
+                    console.log('🌐 Language changed, reloading page...');
                     setTimeout(() => {
                         window.location.reload();
                     }, 1000);
+                } else {
+                    // Reload settings from server to confirm they were saved
+                    console.log('🔄 Reloading settings from server...');
+                    await loadSettings();
+                    console.log('✅ Settings reloaded:', settings);
                 }
             } else {
+                console.error('❌ Save failed:', response);
                 setMessage({ type: 'error', text: response.message || __('Failed to save settings', 'autoblogger') });
             }
         } catch (error) {
-            console.error('Failed to save settings:', error);
-            setMessage({ type: 'error', text: __('Failed to save settings', 'autoblogger') });
+            console.error('❌ Failed to save settings:', error);
+            console.error('Error details:', error.message, error.code, error.data);
+            setMessage({ 
+                type: 'error', 
+                text: __('Failed to save settings', 'autoblogger') + ': ' + (error.message || 'Unknown error')
+            });
         } finally {
             setSaving(false);
         }
     };
 
     const handleInputChange = (field, value) => {
-        setSettings(prev => ({ ...prev, [field]: value }));
+        setSettings(prev => prev ? { ...prev, [field]: value } : null);
     };
 
     const handlePromptChange = (template, value) => {
@@ -148,6 +154,15 @@ const SettingsPage = () => {
 
     if (loading) {
         return <div className="autoblogger-loading">{__('Loading settings...', 'autoblogger')}</div>;
+    }
+
+    // Show loading state until settings are loaded from server
+    if (loading || !settings) {
+        return (
+            <div className="autoblogger-settings">
+                <p>{__('Loading settings...', 'autoblogger')}</p>
+            </div>
+        );
     }
 
     return (

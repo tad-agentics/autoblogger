@@ -40,7 +40,9 @@ class AutoBlogger_Settings {
             update_option('autoblogger_encryption_key', $key);
             
             // Warn admin to move key to wp-config.php
-            AutoBlogger_Logger::warning('Encryption key stored in database. For better security, add to wp-config.php');
+            if (class_exists('AutoBlogger_Logger')) {
+                AutoBlogger_Logger::warning('Encryption key stored in database. For better security, add to wp-config.php');
+            }
         }
         
         return $key;
@@ -109,7 +111,7 @@ class AutoBlogger_Settings {
         // Small data, frequently needed - autoload=true (default)
         $result = update_option('autoblogger_api_key', $encrypted, true);
         
-        if ($result) {
+        if ($result && class_exists('AutoBlogger_Logger')) {
             AutoBlogger_Logger::info('API key saved (encrypted)');
         }
         
@@ -143,10 +145,12 @@ class AutoBlogger_Settings {
      */
     public function get_all_settings() {
         return [
+            'api_key' => '', // Never return actual key (security), frontend will send new key only when changed
             'api_key_configured' => $this->has_api_key(),
+            'api_provider' => get_option('autoblogger_ai_provider', 'claude'),
             'api_model' => get_option('autoblogger_api_model', AutoBlogger_Config::API_MODEL),
             'daily_budget' => (float) get_option('autoblogger_daily_budget', AutoBlogger_Config::COST_DEFAULT_DAILY_BUDGET),
-            'max_iterations' => (int) get_option('autoblogger_max_iterations', AutoBlogger_Config::OPT_MAX_ITERATIONS),
+            'max_optimization_iterations' => (int) get_option('autoblogger_max_iterations', AutoBlogger_Config::OPT_MAX_ITERATIONS),
             'score_threshold' => (int) get_option('autoblogger_score_threshold', AutoBlogger_Config::OPT_SCORE_THRESHOLD),
             'disclaimer_text' => get_option('autoblogger_disclaimer_text', AutoBlogger_Config::SAFETY_DEFAULT_DISCLAIMER),
             'expert_name' => get_option('autoblogger_expert_name', 'Expert'),
@@ -166,9 +170,15 @@ class AutoBlogger_Settings {
     public function save_settings($settings) {
         $updated = [];
         
-        if (isset($settings['api_key'])) {
+        if (isset($settings['api_key']) && !empty($settings['api_key'])) {
             $this->save_api_key($settings['api_key']);
             $updated[] = 'api_key';
+        }
+        
+        if (isset($settings['api_provider'])) {
+            // Small, frequently needed - autoload=true
+            update_option('autoblogger_ai_provider', sanitize_text_field($settings['api_provider']), true);
+            $updated[] = 'api_provider';
         }
         
         if (isset($settings['api_model'])) {
@@ -183,10 +193,10 @@ class AutoBlogger_Settings {
             $updated[] = 'daily_budget';
         }
         
-        if (isset($settings['max_iterations'])) {
+        if (isset($settings['max_optimization_iterations'])) {
             // Small, frequently needed - autoload=true
-            update_option('autoblogger_max_iterations', (int) $settings['max_iterations'], true);
-            $updated[] = 'max_iterations';
+            update_option('autoblogger_max_iterations', (int) $settings['max_optimization_iterations'], true);
+            $updated[] = 'max_optimization_iterations';
         }
         
         if (isset($settings['score_threshold'])) {
@@ -228,7 +238,9 @@ class AutoBlogger_Settings {
             $updated[] = 'language';
         }
         
-        AutoBlogger_Logger::info('Settings updated', ['fields' => $updated]);
+        if (class_exists('AutoBlogger_Logger')) {
+            AutoBlogger_Logger::info('Settings updated', ['fields' => $updated]);
+        }
         
         return true;
     }
@@ -272,11 +284,11 @@ class AutoBlogger_Settings {
         return [
             [
                 'name' => 'Academic',
-                'prompt' => 'Write in a formal, scholarly tone with proper citations and technical terminology'
+                'description' => 'Write in a formal, scholarly tone with proper citations and technical terminology'
             ],
             [
                 'name' => 'Simple',
-                'prompt' => 'Write in a friendly, conversational tone that\'s easy to understand for general readers'
+                'description' => 'Write in a friendly, conversational tone that\'s easy to understand for general readers'
             ]
         ];
     }

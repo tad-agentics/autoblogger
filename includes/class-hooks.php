@@ -256,13 +256,57 @@ class AutoBlogger_Hooks {
      * OPTIMIZATION: REST API class only initialized when actually registering routes
      */
     public function register_rest_routes() {
+        // Debug: Log that this method is being called
+        error_log('AutoBlogger: register_rest_routes() called');
+        
+        // Check if class exists
+        if (!class_exists('AutoBlogger_REST_API')) {
+            error_log('AutoBlogger: AutoBlogger_REST_API class not found!');
+            return;
+        }
+        
+        error_log('AutoBlogger: AutoBlogger_REST_API class exists');
+        
         // Lazy load REST API class only when needed
-        if (!$this->rest_api && class_exists('AutoBlogger_REST_API')) {
-            $this->rest_api = new AutoBlogger_REST_API();
+        if (!$this->rest_api) {
+            try {
+                error_log('AutoBlogger: Attempting to instantiate AutoBlogger_REST_API');
+                $this->rest_api = new AutoBlogger_REST_API();
+                error_log('AutoBlogger: AutoBlogger_REST_API instantiated successfully');
+            } catch (Exception $e) {
+                // Log error but don't break WordPress
+                error_log('AutoBlogger REST API initialization failed: ' . $e->getMessage());
+                error_log('AutoBlogger REST API trace: ' . $e->getTraceAsString());
+                
+                if (class_exists('AutoBlogger_Logger')) {
+                    AutoBlogger_Logger::error('Failed to initialize REST API', [
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString()
+                    ]);
+                }
+                return; // Exit early if REST API can't be initialized
+            }
         }
         
         if ($this->rest_api && method_exists($this->rest_api, 'register_routes')) {
-            $this->rest_api->register_routes();
+            try {
+                error_log('AutoBlogger: Calling register_routes()');
+                $this->rest_api->register_routes();
+                error_log('AutoBlogger: Routes registered successfully');
+            } catch (Exception $e) {
+                // Log error but don't break WordPress
+                error_log('AutoBlogger REST route registration failed: ' . $e->getMessage());
+                error_log('AutoBlogger REST route trace: ' . $e->getTraceAsString());
+                
+                if (class_exists('AutoBlogger_Logger')) {
+                    AutoBlogger_Logger::error('Failed to register REST routes', [
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString()
+                    ]);
+                }
+            }
+        } else {
+            error_log('AutoBlogger: REST API object is null or register_routes method not found');
         }
     }
     
@@ -289,10 +333,13 @@ class AutoBlogger_Hooks {
             return $locale;
         }
         
-        $settings = new AutoBlogger_Settings();
-        $custom_locale = $settings->get_effective_locale();
+        $language = get_option('autoblogger_language', 'auto');
         
-        return $custom_locale;
+        if ($language === 'auto') {
+            return $locale;
+        }
+        
+        return $language;
     }
     
     /**
@@ -308,8 +355,13 @@ class AutoBlogger_Hooks {
             return $locale;
         }
         
-        $settings = new AutoBlogger_Settings();
-        return $settings->get_effective_locale();
+        $language = get_option('autoblogger_language', 'auto');
+        
+        if ($language === 'auto') {
+            return $locale;
+        }
+        
+        return $language;
     }
     
     /**
@@ -318,10 +370,10 @@ class AutoBlogger_Hooks {
      * @return bool True if AutoBlogger page
      */
     private function is_autoblogger_page() {
-        // Check admin pages
+        // Check $_GET for our admin pages (safer than get_current_screen)
         if (is_admin()) {
-            $screen = get_current_screen();
-            if ($screen && strpos($screen->id, 'autoblogger') !== false) {
+            $page = $_GET['page'] ?? '';
+            if (strpos($page, 'autoblogger') !== false) {
                 return true;
             }
             

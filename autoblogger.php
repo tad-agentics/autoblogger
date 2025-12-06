@@ -3,7 +3,7 @@
  * Plugin Name: AutoBlogger
  * Plugin URI: https://autoblogger.com
  * Description: AI-powered content generation with RankMath SEO optimization and E-E-A-T compliance
- * Version: 1.0.2
+ * Version: 1.0.5
  * Author: Agentics
  * Author URI: https://autoblogger.com
  * License: GPL v2 or later
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define constants
-define('AUTOBLOGGER_VERSION', '1.0.2');
+define('AUTOBLOGGER_VERSION', '1.0.5');
 define('AUTOBLOGGER_PATH', plugin_dir_path(__FILE__));
 define('AUTOBLOGGER_URL', plugin_dir_url(__FILE__));
 define('AUTOBLOGGER_BASENAME', plugin_basename(__FILE__));
@@ -70,7 +70,11 @@ add_action('plugins_loaded', 'autoblogger_init');
 function autoblogger_init() {
     // CRITICAL: Skip heavy initialization on frontend
     // Only load when actually needed (admin, REST API, or AJAX)
-    if (!is_admin() && !wp_doing_ajax() && !wp_doing_cron() && !defined('REST_REQUEST')) {
+    // Check for REST API requests by looking at the REQUEST_URI
+    $is_rest_request = (defined('REST_REQUEST') && REST_REQUEST) || 
+                       (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/wp-json/') !== false);
+    
+    if (!is_admin() && !wp_doing_ajax() && !wp_doing_cron() && !$is_rest_request) {
         return; // Exit early on frontend - saves memory and processing
     }
     
